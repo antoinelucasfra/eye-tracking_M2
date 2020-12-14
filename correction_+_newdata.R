@@ -95,5 +95,69 @@ barycentre_pivot <- barycentre_coord %>%
   pivot_wider(names_from = group, 
               values_from = c(mean_x,mean_y))
 
-dim(translation_mat)[1]
-df_bon_pivot %>% slice(rep(1:n(), each = A))
+# on duplique les lignes qu'on vient de faire 
+n = dim(df_stimuli)[1]
+df_bon_duplicate = df_bon_pivot[rep(seq_len(nrow(df_bon_pivot)), each = n), ]
+barycentre_duplicate = barycentre_pivot[rep(seq_len(nrow(df_bon_pivot)), each = n),]
+
+#on bind les columns des trois df créé précédement. 
+df_stimuli_recardage = cbind(df_stimuli, df_bon_duplicate, barycentre_duplicate)
+col = colnames(df_stimuli_recardage)
+
+nb_clust = 5
+# on créé les 5 variable distance des 5 barycentres
+# code A ADAPTER SI ON A PLUS QUE 5 CLUSTER / REFLECHIR COMMENT AUTOMATISER CA ! 
+for (k in 1:nb_clust){
+  vec_temp = sqrt( (df_stimuli_recardage$x - df_stimuli_recardage[,(12+k)])^2 +
+                    (df_stimuli_recardage$y - df_stimuli_recardage[,(17+k)])^2 )
+  df_stimuli_recardage = cbind(df_stimuli_recardage, vec_temp )
+}
+colnames(df_stimuli_recardage) = c( col, "dist1", "dist2", "dist3", "dist4", "dist5")
+df_stimuli_recardage$dist_max = apply(df_stimuli_recardage[,c( "dist1", "dist2", "dist3", 
+                                                               "dist4", "dist5")], 1, FUN=max)
+# on crée les 5 variable de poids (1 par cluster)
+# le poid etant egual a 1- d/D 
+# d la distance au barycentre, D etant la distance max a un barycentre
+col = colnames(df_stimuli_recardage)
+for (k in 1:nb_clust){
+  vec_temp = 1 - df_stimuli_recardage[,23 + k] / df_stimuli_recardage$dist_max
+  df_stimuli_recardage = cbind(df_stimuli_recardage, vec_temp )
+}
+
+colnames(df_stimuli_recardage) = c(col, "poid1", "poid2", "poid3", "poid4", "poid5")
+attach(df_stimuli_recardage)
+
+# on calcule new_x et new_y comme une translation par conbinaison lineaire
+# des vecteurs barycentre -> cible
+df_stimuli_recardage$new_x = df_stimuli_recardage$x + ( (x_1-mean_x_1)*poid1 + (x_2-mean_x_2)*poid2  + (x_3-mean_x_3)*poid3  + 
+                              (x_4-mean_x_4)*poid4  + (x_5-mean_x_5)*poid5 )
+df_stimuli_recardage$new_y = df_stimuli_recardage$y + ( (y_1-mean_y_1)*poid1 + (y_2-mean_y_2)*poid2  + (y_3-mean_y_3)*poid3  + 
+                                    (y_4-mean_y_4)*poid4  + (y_5-mean_y_5)*poid5 )
+
+
+head(df_stimuli_recardage)
+
+dim(df_stimuli_recardage)
+# plot des points de correction et des points stimuli
+ggplot() + 
+  geom_point(data = df_correction, aes(x,y, color = clust)) + 
+  coord_cartesian(xlim = c(0,31), ylim = c(0,30)) +
+  geom_point(data = df_bon, aes(x,y, color = name), shape = 17, cex = 4)+
+  geom_point(data = df_stimuli_recardage, aes(x = x, y=y), alpha = 0.3, color = "blue")
+  
+  
+# on plot les nouvelles coordonnées translaté 
+ggplot() + 
+  geom_point(data = translation_mat, aes(x_trans,y_trans, color = group)) + 
+  coord_cartesian(xlim = c(-5,31), ylim = c(-10,30)) +
+  geom_point(data = df_bon, aes(x,y, color = name), shape = 17, cex = 4) +
+  geom_point(data = df_stimuli_recardage, aes(x = new_x, y=new_y), alpha = 0.3, color = "blue")
+
+
+
+
+
+
+
+
+
