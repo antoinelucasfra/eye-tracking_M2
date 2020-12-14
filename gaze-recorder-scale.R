@@ -2,8 +2,6 @@
 # Dans ce code, on applique la methode de translation par le vecteur barycentre--> cible
 # nos données sont juste nos fixation sur les cible (pas de stimuli présenté)
 
-library(png)
-library(grid)
 library(FactoMineR)
 library(tidyverse)
 library(ggplot2)
