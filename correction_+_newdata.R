@@ -145,19 +145,49 @@ ggplot() +
   geom_point(data = df_bon, aes(x,y, color = name), shape = 17, cex = 4)+
   geom_point(data = df_stimuli_recardage, aes(x = x, y=y), alpha = 0.3, color = "blue")
   
+
+mycol <- c("white", "lightblue", "blue", "navy", "yellow", "red", "red4")
   
 # on plot les nouvelles coordonnées translaté 
 ggplot() + 
   geom_point(data = translation_mat, aes(x_trans,y_trans, color = group)) + 
   coord_cartesian(xlim = c(-5,31), ylim = c(-10,30)) +
   geom_point(data = df_bon, aes(x,y, color = name), shape = 17, cex = 4) +
-  geom_point(data = df_stimuli_recardage, aes(x = new_x, y=new_y), alpha = 0.3, color = "blue")
+  geom_point(data = df_stimuli_recardage, aes(x = new_x, y = new_y), alpha = 0.3, color = "blue")+
+  geom_vline(xintercept = 0)+
+  geom_hline(yintercept = 0)+
+  geom_vline(xintercept = 31)+
+  geom_hline(yintercept = 17.4)+
+  geom_bin2d(data =df_stimuli_recardage,aes(x = new_x, y = new_y), bins = 50, alpha = 0.6) +
+  scale_fill_gradientn(colours = mycol)
 
+# claissification pour trouver les zones d'interet : basé sur x,y et nb clust
+acp_xyNew = PCA(df_stimuli_recardage[,c("new_x", "new_y")])
+classif_xyNew = HCPC(acp_xyNew, nb.clust = 5)
 
+df_classif_xyNew = classif_xyNew$data.clust
 
+ggplot(df_classif_xyNew, aes(x = new_x, y=new_y, color = clust))+
+  coord_cartesian(xlim = c(-5,31), ylim = c(-10,30)) +
+  geom_vline(xintercept = 0)+
+  geom_hline(yintercept = 0)+
+  geom_vline(xintercept = 31)+
+  geom_hline(yintercept = 17.4)+
+  geom_point()
 
+# claissification pour trouver les zones d'interet : basé sur x, y, t et nb clust
+acp_xyNew = PCA(df_stimuli_recardage[,c("t","new_x", "new_y")])
+classif_xyNew = HCPC(acp_xyNew, nb.clust = 5)
 
+df_classif_xyNew = classif_xyNew$data.clust
 
+ggplot(df_classif_xyNew, aes(x = new_x, y=new_y, color = clust))+
+  coord_cartesian(xlim = c(-5,31), ylim = c(-10,30)) +
+  geom_vline(xintercept = 0)+
+  geom_hline(yintercept = 0)+
+  geom_vline(xintercept = 31)+
+  geom_hline(yintercept = 17.4)+
+  geom_point()
 
 
 
