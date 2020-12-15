@@ -1,4 +1,3 @@
-
 ##############################
 ##### NEW DATA : HEAT MAPS  ##
 ##############################
@@ -75,12 +74,40 @@ ggplot() +
   geom_point(data = df_bon, aes(x,y, color = name), shape = 17, cex = 4) + 
   geom_point(data = barycentre_coord, aes(mean_x,mean_y, color = group), shape = 15, cex = 2) 
 
-## geom density 2D 
+## geom density 2D -> usage facile ici 
 ggplot(data=translation_mat,aes(x_trans,y_trans)) + 
   geom_point() + 
   geom_density_2d_filled(adjust = 2/3, alpha = 0.5)+
   coord_cartesian(xlim = c(0,31), ylim = c(0,30)) 
 
+# on teste en calculant manuellement les coordonnées de notre heatmap
+
+attach(translation_mat)
+library(MASS)
+kde_outputs <- kde2d(x_trans, y_trans)
+
+heatmap(kde_outputs$z)
+
+data <- data.frame(x = rnorm(100), y = rnorm(100)) 
+data$z <- with(data, x * y + rnorm(100, sd = 1)) 
+class(data)
+
+library(latticeExtra)
+data_temp <- data.frame(kde_outputs$z)
+heatmap(as.matrix(data_temp))
+
+
+# Data
+a <- data.frame( x=rnorm(20000, 10, 1.9), y=rnorm(20000, 10, 1.2) )
+b <- data.frame( x=rnorm(20000, 14.5, 1.9), y=rnorm(20000, 14.5, 1.9) )
+c <- data.frame( x=rnorm(20000, 9.5, 1.9), y=rnorm(20000, 15.5, 1.9) )
+data <- rbind(a,b,c)
+
+# Bin size control + color palette
+ggplot(data, aes(x=x, y=y) ) +
+  geom_bin2d(bins = 100) +
+  scale_fill_continuous(type = "viridis") +
+  theme_bw()
 
 ##### on applique la translation a notre JDD : 
 head(translation_mat)
@@ -105,8 +132,10 @@ df_stimuli_recardage = cbind(df_stimuli, df_bon_duplicate, barycentre_duplicate)
 col = colnames(df_stimuli_recardage)
 
 nb_clust = 5
+
 # on créé les 5 variable distance des 5 barycentres
 # code A ADAPTER SI ON A PLUS QUE 5 CLUSTER / REFLECHIR COMMENT AUTOMATISER CA ! 
+
 for (k in 1:nb_clust){
   vec_temp = sqrt( (df_stimuli_recardage$x - df_stimuli_recardage[,(12+k)])^2 +
                     (df_stimuli_recardage$y - df_stimuli_recardage[,(17+k)])^2 )
@@ -118,6 +147,7 @@ df_stimuli_recardage$dist_max = apply(df_stimuli_recardage[,c( "dist1", "dist2",
 # on crée les 5 variable de poids (1 par cluster)
 # le poid etant egual a 1- d/D 
 # d la distance au barycentre, D etant la distance max a un barycentre
+
 col = colnames(df_stimuli_recardage)
 for (k in 1:nb_clust){
   vec_temp = 1 - df_stimuli_recardage[,23 + k] / df_stimuli_recardage$dist_max
@@ -127,8 +157,9 @@ for (k in 1:nb_clust){
 colnames(df_stimuli_recardage) = c(col, "poid1", "poid2", "poid3", "poid4", "poid5")
 attach(df_stimuli_recardage)
 
-# on calcule new_x et new_y comme une translation par conbinaison lineaire
+# on calcule new_x et new_y comme une translation par combinaison lineaire
 # des vecteurs barycentre -> cible
+
 df_stimuli_recardage$new_x = df_stimuli_recardage$x + ( (x_1-mean_x_1)*poid1 + (x_2-mean_x_2)*poid2  + (x_3-mean_x_3)*poid3  + 
                               (x_4-mean_x_4)*poid4  + (x_5-mean_x_5)*poid5 )
 df_stimuli_recardage$new_y = df_stimuli_recardage$y + ( (y_1-mean_y_1)*poid1 + (y_2-mean_y_2)*poid2  + (y_3-mean_y_3)*poid3  + 
@@ -138,6 +169,7 @@ df_stimuli_recardage$new_y = df_stimuli_recardage$y + ( (y_1-mean_y_1)*poid1 + (
 head(df_stimuli_recardage)
 
 dim(df_stimuli_recardage)
+
 # plot des points de correction et des points stimuli
 ggplot() + 
   geom_point(data = df_correction, aes(x,y, color = clust)) + 
@@ -145,14 +177,18 @@ ggplot() +
   geom_point(data = df_bon, aes(x,y, color = name), shape = 17, cex = 4)+
   geom_point(data = df_stimuli_recardage, aes(x = x, y=y), alpha = 0.3, color = "blue")
   
+<<<<<<< Updated upstream
 
 mycol <- c("white", "lightblue", "blue", "navy", "yellow", "red", "red4")
   
+=======
+>>>>>>> Stashed changes
 # on plot les nouvelles coordonnées translaté 
 ggplot() + 
   geom_point(data = translation_mat, aes(x_trans,y_trans, color = group)) + 
   coord_cartesian(xlim = c(-5,31), ylim = c(-10,30)) +
   geom_point(data = df_bon, aes(x,y, color = name), shape = 17, cex = 4) +
+<<<<<<< Updated upstream
   geom_point(data = df_stimuli_recardage, aes(x = new_x, y = new_y), alpha = 0.3, color = "blue")+
   geom_vline(xintercept = 0)+
   geom_hline(yintercept = 0)+
@@ -160,6 +196,12 @@ ggplot() +
   geom_hline(yintercept = 17.4)+
   geom_bin2d(data =df_stimuli_recardage,aes(x = new_x, y = new_y), bins = 50, alpha = 0.6) +
   scale_fill_gradientn(colours = mycol)
+=======
+  geom_point(data = df_stimuli_recardage, aes(x = new_x, y=new_y), alpha = 0.3, 
+             color = "blue")
+
+
+>>>>>>> Stashed changes
 
 # claissification pour trouver les zones d'interet : basé sur x,y et nb clust
 acp_xyNew = PCA(df_stimuli_recardage[,c("new_x", "new_y")])
