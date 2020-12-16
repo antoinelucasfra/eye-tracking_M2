@@ -24,7 +24,7 @@ df_bon <- data.frame(x=xvec,y=yvec)
 df_bon$name = rownames((df_bon))
 head(df_bon)
 
-# on selectionne les 1é premiere seconde pour la correction versus après pour le stimuli.
+# on selectionne les 12 premiere secondes pour la correction versus après pour le stimuli.
 df_correction = df[df$t < 12,]
 df_stimuli = df[df$t >= 12,]
 
@@ -33,7 +33,6 @@ acp = FactoMineR::PCA(df_correction, col.w = c(1,1,5))
 res.hcpc = HCPC(acp, nb.clust = 5,  consol = TRUE)
 df_correction = res.hcpc$data.clust
 head(df_correction)
-df_correction$clust
 
 ### si on veut réordonner une variable catégorielle en fonction d'une variable continue
 ###fct_reorder(df$color, df$a, min)
@@ -57,13 +56,13 @@ barycentre_coord = df_joint %>% group_by(group) %>%
 
 # on créé un data frame avec les nouvelles coordonnées des points du regards, translaté
 # par le vecteur point papier -> barycentre
+
 translation_mat = full_join(df_joint , barycentre_coord,by=c("group"="group"))
 translation_mat$x_diff = translation_mat$x_paper - translation_mat$mean_x
 translation_mat$y_diff = translation_mat$y_paper - translation_mat$mean_y
 
 translation_mat$x_trans = translation_mat$x_eye + translation_mat$x_diff
 translation_mat$y_trans = translation_mat$y_eye + translation_mat$y_diff
-
 
 head(translation_mat)
 
@@ -95,7 +94,6 @@ class(data)
 library(latticeExtra)
 data_temp <- data.frame(kde_outputs$z)
 heatmap(as.matrix(data_temp))
-
 
 # Data
 a <- data.frame( x=rnorm(20000, 10, 1.9), y=rnorm(20000, 10, 1.2) )
@@ -177,31 +175,25 @@ ggplot() +
   geom_point(data = df_bon, aes(x,y, color = name), shape = 17, cex = 4)+
   geom_point(data = df_stimuli_recardage, aes(x = x, y=y), alpha = 0.3, color = "blue")
   
-<<<<<<< Updated upstream
-
 mycol <- c("white", "lightblue", "blue", "navy", "yellow", "red", "red4")
   
-=======
->>>>>>> Stashed changes
 # on plot les nouvelles coordonnées translaté 
 ggplot() + 
   geom_point(data = translation_mat, aes(x_trans,y_trans, color = group)) + 
   coord_cartesian(xlim = c(-5,31), ylim = c(-10,30)) +
   geom_point(data = df_bon, aes(x,y, color = name), shape = 17, cex = 4) +
-<<<<<<< Updated upstream
   geom_point(data = df_stimuli_recardage, aes(x = new_x, y = new_y), alpha = 0.3, color = "blue")+
   geom_vline(xintercept = 0)+
   geom_hline(yintercept = 0)+
   geom_vline(xintercept = 31)+
   geom_hline(yintercept = 17.4)+
-  geom_bin2d(data =df_stimuli_recardage,aes(x = new_x, y = new_y), bins = 50, alpha = 0.6) +
+  geom_bin2d(data =df_stimuli_recardage,aes(x = new_x, y = new_y), 
+             bins = 50, alpha = 0.6) +
   scale_fill_gradientn(colours = mycol)
-=======
   geom_point(data = df_stimuli_recardage, aes(x = new_x, y=new_y), alpha = 0.3, 
              color = "blue")
 
 
->>>>>>> Stashed changes
 
 # claissification pour trouver les zones d'interet : basé sur x,y et nb clust
 acp_xyNew = PCA(df_stimuli_recardage[,c("new_x", "new_y")])
@@ -230,6 +222,7 @@ ggplot(df_classif_xyNew, aes(x = new_x, y=new_y, color = clust))+
   geom_vline(xintercept = 31)+
   geom_hline(yintercept = 17.4)+
   geom_point()
+
 
 
 
