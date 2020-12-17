@@ -2,6 +2,7 @@
 library(truncnorm)
 library(png)
 library(grid)
+library(ggplot2)
 
 ## fonction qui génère une trajectoire du regard
 one_record = function(repetition = 10, nb_clust = 7, like = 1){
@@ -28,7 +29,7 @@ one_record = function(repetition = 10, nb_clust = 7, like = 1){
   
   # si like == 0, alors 0<x<0.7 parti a gauche de l'ecran
   else{
-    for (k in 1:nb_points){  
+    for (k in 1:nb_clust){  
       y = rnorm(n = repetition,mean = runif(1), sd=0.05)
       x = rtruncnorm(n=repetition, a=0, b=1, mean=runif(1,0,0.7), sd=0.05)
       
@@ -43,7 +44,7 @@ one_record = function(repetition = 10, nb_clust = 7, like = 1){
 }
 
 
-fake_generator = function(nb_record = 100, img = "flav_thvnrd_LI.png"){
+fake_generator = function(nb_record = 1, img = "flav_thvnrd_LI.png"){
 
   # importer image, par default le liknedIn de flavie : 
   img_path = paste0("img/",img)
@@ -88,7 +89,7 @@ fake_generator = function(nb_record = 100, img = "flav_thvnrd_LI.png"){
 }
 
 
-fake_generator(8)
+fake_generator(10)
 
 
 
