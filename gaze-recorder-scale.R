@@ -7,7 +7,9 @@ library(tidyverse)
 library(ggplot2)
 
 
-data = read.table("data/record_23points_correction.txt")
+data <- read.table("data/record_23points_correction.txt")
+data_skip <- read.table("data/record_23points_correction.txt", 
+                        skip = 5)
 head(data)
 
 # a adapter en fonction de la taille de notre ecran.
