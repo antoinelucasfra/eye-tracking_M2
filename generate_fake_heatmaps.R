@@ -5,7 +5,7 @@ library(grid)
 library(ggplot2)
 
 ## fonction qui génère une trajectoire du regard
-one_record = function(repetition = 10, nb_clust = 7, like = 1, x_pos = 0.45){
+one_record = function(repetition = 10, nb_clust = 7, like = 1, x_pos = 0.3){
   # prend en entree : 
   # repetition : le nombre de points par cluster
   # cluster : le nombre de zone fixé sur l'ecran 
@@ -17,7 +17,7 @@ one_record = function(repetition = 10, nb_clust = 7, like = 1, x_pos = 0.45){
   # si like ==1, alors 0.3<x<1, parti a droite de l'ecran
   if (like==1){
     for (k in 1:nb_clust){  
-      y = rnorm(n = repetition,mean = runif(1, 0.3, 0.7), sd=0.05)
+      y = rnorm(n = repetition,mean = runif(1), sd=0.05)
       x = rtruncnorm(n=repetition, a=0, b=1, mean=runif(1,x_pos,1), sd=0.05)
       x = x * 31
       y = y * 17.4
@@ -30,7 +30,7 @@ one_record = function(repetition = 10, nb_clust = 7, like = 1, x_pos = 0.45){
   # si like == 0, alors 0<x<0.7 parti a gauche de l'ecran
   else{
     for (k in 1:nb_clust){  
-      y = rnorm(n = repetition,mean = runif(1, 0.3, 0.7), sd=0.05)
+      y = rnorm(n = repetition,mean = runif(1), sd=0.05)
       x = rtruncnorm(n=repetition, a=0, b=1, mean=runif(1,0,(1-x_pos)), sd=0.05)
       
       x = x * 31
