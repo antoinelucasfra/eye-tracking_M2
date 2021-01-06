@@ -25,7 +25,6 @@ df_real <- data.frame(x_real=xvec,y_real=yvec,name=as.factor(1:area_number))
 # define time of eye-tracking evaluation (in seconds)
 # start_time = 
 # stop time =  
-  
 
 #' @param data 
 #' @param screen_size 
@@ -33,7 +32,6 @@ df_real <- data.frame(x_real=xvec,y_real=yvec,name=as.factor(1:area_number))
 #' take as input the raw data to pre-process
 #' return the pre-process data with screen size taken into account 
 #' and time units changed from milliseconds to seconds
-
 gaze_preprocess <- function(data,screen_size=screen_size_input){
   gaze_df <- data.frame(
     x = data[,1]*screen_size[2],
@@ -43,54 +41,32 @@ gaze_preprocess <- function(data,screen_size=screen_size_input){
   return(gaze_df)
 }
 
-data_gaze <- gaze_preprocess(data_gaze_raw)
-
-
+#' function to split the data in two parts : correction and stimuli
 #' @param data 
 #' @param time_sep
-#' function to split the data in two parts : correction and stimuli
-#' take as in put the pre-process data and return a list of the two elements splitted
-
+#' take as input the pre-process data and 
+#' return a list of the two elements splitted
 split_time <- function(data,time_sep){
   df_calibration <- data %>% filter(t < time_sep)
   df_stimuli <- data %>% filter(t >= time_sep)
   return(list(df_calibration,df_stimuli))
 }
 
-split <- split_time(data_gaze,12)
-
-#get correction data
-correction <- split[[1]]
-# get stimuli data
-stimuli <- split[[2]]
-
-
-# define weights you want to attribute to each variable for PCA
-pca_weights_input = c(1,1,5)
-
 #' function to run classification on the correction  
 #' @param data 
 #' @param pca_weights 
 #' @param clust_number 
 #' take as input the correction (early) phase of eye-tracking experiment
-
-gaze_classif <- function(data,pca_weights=pca_weights_input,clust_number=area_number){
+gaze_classif <- function(data,pca_weights=c(1,1,5),clust_number=area_number){
   res_pca <- FactoMineR::PCA(data,col.w = pca_weights,graph = F)
   res_hcpc <- FactoMineR::HCPC(res_pca,nb.clust = clust_number,consol = T,graph = F)
   return(res_hcpc$data.clust)
 }
 
-data_class <- gaze_classif(correction)
-
-# add coordinates of real data
-df_join <- full_join(data_class, df_real, by=c("clust"="name")) %>% 
-  rename(x_eye = x, y_eye = y, group = clust)
-
 #' function to apply the correction method on correction data
 #' @param data 
 #' take as input the joined dataframe of observed and real point issued from the evaluation
 #' and return a dataframe with the transformed columns according the correction employed
-
 gaze_correct_bary <- function(data){
   
   # barycenter calcul
@@ -108,11 +84,6 @@ gaze_correct_bary <- function(data){
   return(trans_mat)
 }
 
-# get correction data with barycenter correction
-df_trans <- gaze_correct_bary(df_join)
-
-#get only barycenter data for each observed area
-df_bary <- unique(df_trans[,c("group","mean_x_eye","mean_y_eye","x_real","y_real")])
 
 #' function to get dist and weights to apply linear combination on our stimuli data
 #'
@@ -125,8 +96,6 @@ df_bary <- unique(df_trans[,c("group","mean_x_eye","mean_y_eye","x_real","y_real
 #' and the stimuli data observed. And also the number of class decided earlier (matching the number
 #' of real point physically displayed on screen).
 #' return the different dataframes that are useful to apply the linear combination correction
-#' 
-
 gaze_dist_weight_df <- function(data_real,data_barycenter,data_stimuli,nb_clust=area_number){
   
   nb_line_stimuli  <- dim(data_stimuli)[1]
@@ -182,14 +151,6 @@ gaze_dist_weight_df <- function(data_real,data_barycenter,data_stimuli,nb_clust=
   return(list(df_real_dup,df_bary_dup,dist,weights))
 }
 
-dist_weight <- gaze_dist_weight_df(df_real,df_bary,stimuli)
-
-# separate each object created in dist_weight
-real_pivot <- dist_weight[[1]]
-bary_pivot <- dist_weight[[2]]
-weight <- dist_weight[[4]]
-dist <- dist_weight[[3]]
-
 #' function to apply the linear combination on stimuli data from the 
 #' correction data 
 #'
@@ -202,7 +163,6 @@ dist <- dist_weight[[3]]
 #'take as input the 4 dataframes : the stimuli data points ; the real data points
 #'pivoted for each class ; the pivot with barycenter for each class ; the weights 
 #'calculated according our method
-
 gaze_stimuli_combi <- function(data_stimuli,data_real,data_bary,data_weight,nb_clust=area_number){
   
   stimuli_correct <- data.frame(x = data_stimuli$x,
@@ -216,7 +176,52 @@ gaze_stimuli_combi <- function(data_stimuli,data_real,data_bary,data_weight,nb_c
   return(stimuli_correct)
 }
 
+################################################## 
+######## execution of function definition ######## 
+################################################## 
+
+# execute the pre-process function
+data_gaze <- gaze_preprocess(data_gaze_raw)
+
+# execute the split function 
+split <- split_time(data_gaze,12)
+
+#get correction data
+correction <- split[[1]]
+# get stimuli data
+stimuli <- split[[2]]
+
+# define weights you want to attribute to each variable for PCA
+pca_weights_input = c(1,1,5)
+
+# execute the classification function 
+data_class <- gaze_classif(correction)
+
+# add coordinates of real data
+df_join <- full_join(data_class, df_real, by=c("clust"="name")) %>% 
+  rename(x_eye = x, y_eye = y, group = clust)
+
+# get correction data with barycenter correction
+df_trans <- gaze_correct_bary(df_join)
+#get only barycenter data for each observed area
+df_bary <- unique(df_trans[,c("group","mean_x_eye","mean_y_eye","x_real","y_real")])
+
+dist_weight <- gaze_dist_weight_df(df_real,df_bary,stimuli)
+
+# separate each object created in dist_weight
+real_pivot <- dist_weight[[1]]
+bary_pivot <- dist_weight[[2]]
+weight <- dist_weight[[4]]
+dist <- dist_weight[[3]]
+
+# execute the linear combination
 stimuli_correct <- gaze_stimuli_combi(stimuli,real_pivot,bary_pivot,weight) 
+
+############
+####save####
+############
 
 # save file in data folder
 save(stimuli_correct,file="data/stimuli_rdy.RData")
+
+
