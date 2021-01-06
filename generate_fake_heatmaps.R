@@ -19,6 +19,7 @@ one_record = function(repetition = 10, nb_clust = 7, like = 1, x_pos = 0.3){
     for (k in 1:nb_clust){  
       y = rnorm(n = repetition,mean = runif(1), sd=0.05)
       x = rtruncnorm(n=repetition, a=0, b=1, mean=runif(1,x_pos,1), sd=0.05)
+      
       x = x * 31
       y = y * 17.4
       like = rep(1,repetition)

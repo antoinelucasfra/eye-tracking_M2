@@ -8,10 +8,6 @@ library(reticulate)
 library(abind)
 
 
-#peut etre pas utile
-library(imager)
-
-
 source("generate_fake_heatmaps.R")
 
 
@@ -20,7 +16,7 @@ width_size = 320
 channel = 3
 
 ### only if requiered
-# fake_generator(100,img = "left_right.png", height_size = height_size, width_size = width_size, sup_img = TRUE)
+# fake_generator(100,img = "left_right.png", height_size = height_size, width_size = width_size, sup_img = FALSE)
 
 
 # on load la list d'image 
@@ -50,7 +46,9 @@ for (k in 1:length(image)) {
 # y etant une serie de 1 ou 0 en variable catégorielle
 heat_img$y = ifelse(list_number %% 2 == 0, 1,0)
 
-# jdd train et test
+
+
+######### jdd train et test
 
 n_train = round(length(list_files) * 0.7)
 ind_train = sample(1:length(list_files),n_train )
@@ -62,30 +60,6 @@ y_train <- as.array(as.integer(heat_img$y))[ind_train]
 #test
 x_test <- heat_img$x[-ind_train,,,]
 y_test <- as.array(as.integer(heat_img$y))[-ind_train]
-
-# ####### Algo muriel ########
-# 
-# # on créé un model CNN
-# model <- keras_model_sequential()
-# model %>%
-#   layer_flatten(input_shape = c(height_size, width_size, 3)) %>%   # 70*70 pixels *3 couleurs
-#   layer_dense(units = 128, activation = 'relu') %>%
-#   layer_dense(units = 1, activation = 'sigmoid')
-# 
-# model %>% compile(
-#   optimizer = 'adam',
-#   loss = 'binary_crossentropy',
-#   metrics = c('accuracy')
-# )
-# 
-# model %>% fit(x_train, y_train, epochs = 10) # on refait n fois le model
-# 
-# score <- model %>% evaluate(x_train, y_train, verbose = 1)
-# score
-# 
-# 
-# # prediction sur nos data
-# model %>%keras::predict_classes(x_train, verbose = 1)
 
 
 ### Algo keras : avec troisieme dimension 
@@ -115,7 +89,7 @@ model %>% compile(
 history <- model %>% 
   fit(
     x = x_train, y = y_train,
-    epochs = 10,
+    epochs = 4,
     validation_data = list(x_test,y_test),
     verbose = 1
   )
@@ -124,14 +98,12 @@ plot(history)
 
 
 
-
-
 #### Interpretability #####
 
 # lime
 
-img_path <- "img/fake_img/fake1.png"
-img_path2 <- "img/fake_img/fake2.png"
+img_path <- "img/fake_img/fake43.png"
+img_path2 <- "img/fake_img/fake100.png"
 
 image_prep2 <- function(x) {
   arrays <- lapply(x, function(path) {
@@ -143,46 +115,15 @@ image_prep2 <- function(x) {
   do.call(abind::abind, c(arrays, list(along = 1)))
 }
 
+plot_superpixels(img_path, n_superpixels = 10, weight = 10)
+
 explainer2 <- lime(c(img_path, img_path2), model = model, preprocess =  image_prep2)
 explanation2 <- explain(c(img_path, img_path2), explainer2,
-                        n_labels = 2, n_features = 10, weight = 5,
+                        n_labels = 2, n_features = 10, weight = 10,n_superpixels = 10,
                         background = "white")
 
 exp <- as.data.frame(explanation2)
-desagreable <- exp[exp$case == "nom de la voiture classé dans j'aime",]
+desagreable <- exp[exp$case == "fake43.png",]
 plot_image_explanation(desagreable)
-agreable <- exp[exp$case == "nom de la voiture classé dans j'aime pas.jpg",]
+agreable <- exp[exp$case == "fake100.png",]
 plot_image_explanation(agreable)
-
-### exemple 
-
-img_path <- system.file('extdata', 'produce.png', package = 'lime')
-# load a predefined image classifier
-model <- application_vgg16(
-  weights = "imagenet",
-  include_top = TRUE
-)
-
-# create a function that prepare images for the model
-img_preprocess <- function(x) {
-  arrays <- lapply(x, function(path) {
-    img <- image_load(path, target_size = c(224,224))
-    x <- image_to_array(img)
-    x <- array_reshape(x, c(1, dim(x)))
-    x <- imagenet_preprocess_input(x)
-  })
-  do.call(abind, c(arrays, list(along = 1)))
-}
-
-# Create an explainer (lime recognise the path as an image)
-explainer <- lime(img_path, as_classifier(model, unlist(labels)), img_preprocess)
-
-# Explain the model (can take a long time depending on your system)
-explanation <- explain(img_path, explainer, n_labels = 2, n_features = 10, n_superpixels = 70)
-
-plot_image_explanation(explanation)
-
-
-
-
-
