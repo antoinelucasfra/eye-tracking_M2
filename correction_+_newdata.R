@@ -79,34 +79,6 @@ ggplot(data=translation_mat,aes(x_trans,y_trans)) +
   geom_density_2d_filled(adjust = 2/3, alpha = 0.5)+
   coord_cartesian(xlim = c(0,31), ylim = c(0,30)) 
 
-# on teste en calculant manuellement les coordonnées de notre heatmap
-
-attach(translation_mat)
-library(MASS)
-kde_outputs <- kde2d(x_trans, y_trans)
-
-heatmap(kde_outputs$z)
-
-data <- data.frame(x = rnorm(100), y = rnorm(100)) 
-data$z <- with(data, x * y + rnorm(100, sd = 1)) 
-class(data)
-
-library(latticeExtra)
-data_temp <- data.frame(kde_outputs$z)
-heatmap(as.matrix(data_temp))
-
-# Data
-a <- data.frame( x=rnorm(20000, 10, 1.9), y=rnorm(20000, 10, 1.2) )
-b <- data.frame( x=rnorm(20000, 14.5, 1.9), y=rnorm(20000, 14.5, 1.9) )
-c <- data.frame( x=rnorm(20000, 9.5, 1.9), y=rnorm(20000, 15.5, 1.9) )
-data <- rbind(a,b,c)
-
-# Bin size control + color palette
-ggplot(data, aes(x=x, y=y) ) +
-  geom_bin2d(bins = 100) +
-  scale_fill_continuous(type = "viridis") +
-  theme_bw()
-
 ##### on applique la translation a notre JDD : 
 head(translation_mat)
 head(df_stimuli)
@@ -162,7 +134,6 @@ df_stimuli_recardage$new_x = df_stimuli_recardage$x + ( (x_1-mean_x_1)*poid1 + (
                               (x_4-mean_x_4)*poid4  + (x_5-mean_x_5)*poid5 )
 df_stimuli_recardage$new_y = df_stimuli_recardage$y + ( (y_1-mean_y_1)*poid1 + (y_2-mean_y_2)*poid2  + (y_3-mean_y_3)*poid3  + 
                                     (y_4-mean_y_4)*poid4  + (y_5-mean_y_5)*poid5 )
-
 
 head(df_stimuli_recardage)
 
