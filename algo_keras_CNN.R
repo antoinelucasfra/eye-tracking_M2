@@ -7,7 +7,6 @@ library(magick)
 library(reticulate)
 library(abind)
 
-
 source("generate_fake_heatmaps.R")
 
 
@@ -15,26 +14,33 @@ height_size = 180
 width_size = 320
 channel = 3
 
-### only if requiered
-# fake_generator(100,img = "left_right.png", height_size = height_size, width_size = width_size, sup_img = FALSE)
+## Generate fake heatMaps if needed 
+list_files = list.files("img/fake_img/", pattern = "*.png", full.names = TRUE)
+if (length(list_files)==0) {
+  fake_generator(100,
+                 img = "left_right.png", 
+                 height_size = height_size, 
+                 width_size = width_size, 
+                 sup_img = FALSE)
+}
 
 
-# on load la list d'image 
+# Load heatMaps data
 list_files = list.files("img/fake_img/", pattern = "*.png", full.names = TRUE)
 
-
+# extract number in picture names
 numextract <- function(string){str_extract(string, "[-+]?[0-9]*\\.?[0-9]+")
 }
 list_number = as.numeric(numextract(list_files))
 
 
-# on les converti en png
+# Convertion in png
 image = lapply(X =list_files, FUN =readPNG)
 # on les convert en RG (utile si on veut visualiser)
 image_rg = lapply(image, grid::rasterGrob)
 
 
-# Creation heat_img en array : 
+# Creation heat_img as array : 
 heat_img <- list()
 heat_img$x <- array(0, c(length(image), height_size, width_size,3)) # image size 
 
@@ -43,12 +49,18 @@ for (k in 1:length(image)) {
   heat_img$x[k,,,] <- image[[k]][,,] 
 }
 
-# y etant une serie de 1 ou 0 en variable catégorielle
+# y is a serie of (0,1) according the name of the picture :pair then 0, else 1 
 heat_img$y = ifelse(list_number %% 2 == 0, 1,0)
 
 
 
-######### jdd train et test
+
+##################################
+
+######### dataset train et test ##
+
+##################################
+
 
 n_train = round(length(list_files) * 0.7)
 ind_train = sample(1:length(list_files),n_train )
@@ -62,7 +74,8 @@ x_test <- heat_img$x[-ind_train,,,]
 y_test <- as.array(as.integer(heat_img$y))[-ind_train]
 
 
-### Algo keras : avec troisieme dimension 
+###  keras algorithm
+
 model <- keras_model_sequential() %>% 
   layer_conv_2d(filters = 32, kernel_size = c(3,3), activation = "relu", 
                 input_shape = c(height_size,width_size,channel)) %>% 
@@ -76,8 +89,6 @@ model %>%
   layer_dense(units = 64, activation = "relu") %>% 
   layer_dense(units = 1, activation = "sigmoid")
 
-
-summary(model)
 
 model %>% compile(
   optimizer = "adam",
@@ -98,9 +109,8 @@ plot(history)
 
 
 
-#### Interpretability #####
+#### Lime Interpretability #####
 
-# lime
 
 img_path <- "img/fake_img/fake43.png"
 img_path2 <- "img/fake_img/fake100.png"

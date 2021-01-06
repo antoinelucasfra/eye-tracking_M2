@@ -113,5 +113,3 @@ fake_generator = function(nb_record = 1, img = "flav_thvnrd_LI.png", width_size 
 
 
 
-
-
