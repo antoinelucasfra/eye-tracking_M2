@@ -10,18 +10,6 @@ library(tidyverse)
 # insert your own path for the GazeRecorder txt file  
 data_gaze_raw <- read.table("data/record_23points_correction.txt")
 
-#Position of calibration square
-square_pos = read.csv("experience/25_square_position.csv", sep =";", header = TRUE, row.names = 1, dec = ".", colClasses = c("col" = "factor", "xvec" = "numeric", 'yvec' = "numeric"))
-
-################################################
-# define area number we were looking on screen for calibration phase 
-area_number = 25
-
-# define your own screen size (height, width)
-screen_size_input = c(9,16)
-
-# data from real observed points : (through the csv file)
-df_real <- data.frame(x_real=square_pos$xvec,y_real=square_pos$yvec,name=as.factor(1:area_number))
 
 # define time of eye-tracking evaluation (in seconds)
 # start_time = 
@@ -58,7 +46,7 @@ split_time <- function(data,time_sep){
 #' @param pca_weights 
 #' @param clust_number 
 #' take as input the correction (early) phase of eye-tracking experiment
-gaze_classif <- function(data,pca_weights=c(1,1,5),clust_number=area_number){
+gaze_classif <- function(data,pca_weights=c(1,1,5),clust_number){
   res_pca <- FactoMineR::PCA(data,col.w = pca_weights,graph = F)
   res_hcpc <- FactoMineR::HCPC(res_pca,nb.clust = clust_number,consol = T,graph = F)
   return(res_hcpc$data.clust)
