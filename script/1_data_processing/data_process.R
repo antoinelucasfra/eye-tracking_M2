@@ -10,17 +10,18 @@ library(tidyverse)
 # insert your own path for the GazeRecorder txt file  
 data_gaze_raw <- read.table("data/record_23points_correction.txt")
 
+#Position of calibration square
+square_pos = read.csv("experience/25_square_position.csv", sep =";", header = TRUE, row.names = 1, dec = ".", colClasses = c("col" = "factor", "xvec" = "numeric", 'yvec' = "numeric"))
+
 ################################################
 # define area number we were looking on screen for calibration phase 
-area_number = 23
+area_number = 25
 
 # define your own screen size (height, width)
-screen_size_input = c(17.4,31)
+screen_size_input = c(9,16)
 
-# load data from real observed points : add it manually
-xvec <- c(1.6,29.4,29.4,1.6,15.6,8,24,24,8,1.6,29.4,29.4,1.6,15.6,29.4,15.6,1.6,8,24,8,24,24,8)
-yvec <- c(16.5,16.5,1,1,8.7,16.5,16.5,1,1,13,13,4.3,4.3,16.5,8.7,1,8.7,8.7,8.7,13,13,4.3,4.3)
-df_real <- data.frame(x_real=xvec,y_real=yvec,name=as.factor(1:area_number))
+# data from real observed points : (through the csv file)
+df_real <- data.frame(x_real=square_pos$xvec,y_real=square_pos$yvec,name=as.factor(1:area_number))
 
 # define time of eye-tracking evaluation (in seconds)
 # start_time = 
