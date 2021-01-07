@@ -3,7 +3,6 @@ library(png)
 library(grid)
 library(ggplot2)
 
-data = read.table("data/Gazedata/1-Flavie/ScreenRecorderPath.txt")
 
 heatmap_generator = function(path_img = "img/flav_thvnrd_LI.png", width_size = 50, height_size = 50, sup_img = TRUE, transparancy_img = 0.8, record_file = data){
   
@@ -12,7 +11,7 @@ heatmap_generator = function(path_img = "img/flav_thvnrd_LI.png", width_size = 5
   img <- rasterGrob(img, interpolate=TRUE)
 
   if (sup_img == TRUE){
-    heatmap = ggplot(data, aes(x=data$V1*16, y=data$V2*9) ) +
+    heatmap = ggplot(data, aes(x = x, y = y) ) +
       theme_void() +
       annotation_custom(img, xmin=0, xmax=16, ymin=0, ymax=9) +
       stat_density_2d(aes(fill = ..density..), geom = "raster", contour = FALSE, alpha = transparancy_img) +
