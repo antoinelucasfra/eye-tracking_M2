@@ -26,7 +26,7 @@ list_consumers_path = list.files("data/Gazedata/", full.names = TRUE)
 list_consumers_name = list.files("data/Gazedata/", full.names = FALSE)
 
 n_consumers = length(list_consumers_path)
-row_number = n_consumers * length(list.files(list_consumers_path[1], full.names = TRUE))
+# row_number = n_consumers * length(list.files(list_consumers_path[1], full.names = TRUE))
 
 df = data.frame()
 col = c("x", "y", "t", "stimu", "consu", "rank")
@@ -42,15 +42,13 @@ for (k in 1:n_consumers){
     path_stimuli = paste0(path_temp[k],"/", list_stimuli[i], "/ScreenRecorderPath.dat")
     temp_txt <- read.table(path_stimuli, skip = 1)
     
-    temp_txt = gaze_preprocess(temp_txt)
+    temp_txt = gaze_preprocess(temp_txt, screen_size = screen_size_input)
     
     df_temp = cbind(temp_txt[,], 
                     as.factor(list_stimuli[i]),
                     as.factor(list_consumers_name[k]),
                     as.factor(gsub("([0-9]+).*$", "\\1", list_stimuli[i])))
     colnames(df_temp) = col
-    
-    t = split_time(df_temp, time_sep = 10)
     
     df = rbind(df,df_temp)
   }
@@ -62,14 +60,30 @@ df = df[df$t>5,]
 consu_lvl = levels(df$consu)
 stimu_lvl = levels(df$stimu)
 
+seq_clust <- 1:26
+
 for (k in consu_lvl){
   correction_temp = df[(df$stimu == "0_correction") & (df$consu == k),c("x", "y", "t")]
-  data_class <- gaze_classif(correction_temp, clust_number = area_number)
+  data_class <- gaze_classif(correction_temp,pca_weights = c(1,1,5), clust_number = area_number+1)
+  levels(data_class$clust)
+  data_class %>% group_by(clust) %>% arrange(t) 
   
-  df_join <- full_join(data_class, df_real, by=c("clust"="name")) %>% 
+  # on fait une seq nb_clust (1:26) qu'on mutate sur le df summarisé et ensuite on allonge tout ça en pivot_long
+    print(n=200)
+  # pour corriger l'ordre des classe : a faire 
+  
+  #### autre idée : on affecte a chaque cluster, le point reel dont la distance cluster -> point réel est la plus faible.
+  
+  # joindre les classe avec les vrai points 
+  df_join <- full_join(data_class, square_pos, by=c("clust"="name")) %>% 
     rename(x_eye = x, y_eye = y, group = clust)
   
   
+  #plot pour verifer que la jointure est bonne 
+  ggplot() + 
+    geom_point(data = data_class, aes(x,y, color = clust)) + 
+    coord_cartesian(xlim = c(0,16), ylim = c(0,9)) +
+    geom_point(data = square_pos, aes(xvec,yvec, color = name), shape = 17, cex = 4)
   
   
   
