@@ -45,10 +45,11 @@ one_record = function(repetition = 10, nb_clust = 7, like = 1, x_pos = 0.3){
 }
 
 
-fake_generator = function(nb_record = 1, img = "flav_thvnrd_LI.png", width_size = 50, height_size = 50, sup_img = TRUE, transp = 0.8){
+fake_generator = function(nb_record = 1, img = "flav_thvnrd_LI.png", 
+                          width_size = 50, height_size = 50, sup_img = TRUE, transp = 0.8){
 
   # importer image, par default le liknedIn de flavie : 
-  img_path = paste0("img/",img)
+  img_path = paste0("img/old/",img)
   img <- readPNG(img_path)
   img <- rasterGrob(img, interpolate=TRUE)
   
