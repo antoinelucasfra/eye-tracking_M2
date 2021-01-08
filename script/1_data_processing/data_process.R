@@ -21,7 +21,7 @@ data_gaze_raw <- read.table("data/record_23points_correction.txt")
 #' take as input the raw data to pre-process
 #' return the pre-process data with screen size taken into account 
 #' and time units changed from milliseconds to seconds
-gaze_preprocess <- function(data,screen_size=screen_size_input){
+gaze_preprocess <- function(data,screen_size){
   gaze_df <- data.frame(
     x = data[,1]*screen_size[2],
     y = (1 -data[,2])*screen_size[1],
