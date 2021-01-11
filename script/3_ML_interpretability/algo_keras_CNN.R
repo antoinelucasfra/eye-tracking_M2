@@ -7,7 +7,8 @@ library(magick)
 library(reticulate)
 library(abind)
 
-source("script/generate_fake_heatmaps.R")
+
+source("script/2_heatmap/generate_fake_heatmaps.R")
 
 
 height_size = 180
@@ -18,12 +19,10 @@ channel = 3
 list_files = list.files("img/fake_img/", pattern = "*.png", full.names = TRUE)
 if (length(list_files)==0) {
   fake_generator(100,
-                 img = "left_right.png", 
                  height_size = height_size, 
                  width_size = width_size, 
                  sup_img = FALSE)
 }
-
 
 # Load heatMaps data
 list_files = list.files("img/fake_img/", pattern = "*.png", full.names = TRUE)
@@ -33,12 +32,11 @@ numextract <- function(string){str_extract(string, "[-+]?[0-9]*\\.?[0-9]+")
 }
 list_number = as.numeric(numextract(list_files))
 
+# Conversion in png format
+image = lapply(X = list_files, FUN = readPNG)
 
-# Convertion in png
-image = lapply(X =list_files, FUN =readPNG)
 # on les convert en RG (utile si on veut visualiser)
-image_rg = lapply(image, grid::rasterGrob)
-
+# image_rg = lapply(image, rasterGrob)
 
 # Creation heat_img as array : 
 heat_img <- list()
@@ -52,15 +50,9 @@ for (k in 1:length(image)) {
 # y is a serie of (0,1) according the name of the picture :pair then 0, else 1 
 heat_img$y = ifelse(list_number %% 2 == 0, 1,0)
 
-
-
-
 ##################################
-
 ######### dataset train et test ##
-
 ##################################
-
 
 n_train = round(length(list_files) * 0.7)
 ind_train = sample(1:length(list_files),n_train )
@@ -100,7 +92,7 @@ model %>% compile(
 history <- model %>% 
   fit(
     x = x_train, y = y_train,
-    epochs = 4,
+    epochs = 4, batch_size = 4,
     validation_data = list(x_test,y_test),
     verbose = 1
   )
@@ -126,6 +118,14 @@ image_prep2 <- function(x) {
 }
 
 plot_superpixels(img_path, n_superpixels = 10, weight = 10)
+
+# find optimum for n_superpixels and weights associated in plot_superpixels function 
+
+# experimental planification 
+# 2 quantitative variables 
+
+
+
 
 explainer2 <- lime(c(img_path, img_path2), model = model, preprocess =  image_prep2)
 explanation2 <- explain(c(img_path, img_path2), explainer2,
