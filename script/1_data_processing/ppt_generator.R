@@ -1,8 +1,6 @@
 # script to produce a powerpoint to show at the user at the end of all stimuli
 #' eye-tracking evaluations 
-#' build a script that take as input 2 different paths : the one from the stimuli
-#' that were looked by the people and the path from where the data are generated in the folder 
-#' 
+#' build a script that take as input the path : stimuli + heatmap superposed 
 
 library(png)
 library(officer)
@@ -10,12 +8,16 @@ library(magrittr)
 library(imager)
 
 
-# define the path of the picture
+# define the path of the picture to get
 
+# final path is : "data/heatmap_eyetrack"
 picture_list <- list.files("img/fake_img/", full.names = T)
 
-#' function that is returning a powerpoint with picture and heatmap from the 2 different paths 
-#' take as in put the heatmaps and pictures pat and the number of picture/slide
+#' function that is returning a powerpoint with picture and heatmap from the path
+#'
+#' @param slide_object the slideshow to build 
+#' @param list_pictures stimuli + heatmaps created
+#' @param n_stimuli the number of picture/slide necessary (16 in total)
 
 ppt_generate <- function(slide_object, list_pictures, n_stimuli){
 
@@ -41,6 +43,6 @@ slideshow <- read_pptx()
 
 # writing the powerpoint 
 
-ppt_generate(slideshow,picture_list,50)
+ppt_generate(slideshow,picture_list,16)
 
 
