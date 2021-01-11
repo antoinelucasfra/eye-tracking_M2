@@ -7,7 +7,7 @@ library(magick)
 library(reticulate)
 library(abind)
 
-source("generate_fake_heatmaps.R")
+source("script/generate_fake_heatmaps.R")
 
 
 height_size = 180
