@@ -6,6 +6,17 @@
 library(FactoMineR)
 library(tidyverse)
 
+<<<<<<< HEAD:script/1_data_processing/helpers_data_process.R
+=======
+# load raw data from GazeRecorder
+# insert your own path for the GazeRecorder txt file  
+data_gaze_raw <- read.table("data/record_23points_correction.txt")
+
+
+# define time of eye-tracking evaluation (in seconds)
+# start_time = 
+# stop time =  
+>>>>>>> f331d87bc7dc1fb561be6d41392bf7792aa54c38:script/1_data_processing/data_process.R
 
 #' @param data 
 #' @param screen_size 
