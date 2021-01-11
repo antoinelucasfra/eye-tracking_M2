@@ -1,19 +1,8 @@
 # source code function
-source("script/1_data_processing/data_process.R")
-source("script/2_heatmap/generate_fake_heatmaps.R")
-
+source("script/1_data_processing/helpers_data_process.R")
+# source("script/2_heatmap/generate_fake_heatmaps.R")
 
 library(tidyr)
-
-########################### parameters #######################
-
-consumers_name = "1-Flavie"
-screen_size_input = c(9,16)
-
-# default parameters
-start_time = rep(5,17)
-end_time = rep(60,17)
-
 
 #Position of calibration square
 square_pos = read.csv("experience/25_square_position.csv", sep =";", header = TRUE, row.names = 1, dec = ".", colClasses = c("col" = "factor", "xvec" = "numeric", 'yvec' = "numeric"))
@@ -74,7 +63,6 @@ df_join <- full_join(data_class, square_pos, by=c("clust"="name")) %>%
   rename(x_eye = x, y_eye = y, group = clust)
 
 
-  
 #### suppose que la classif est bien faites : 
 
 # get correction data with barycenter correction
@@ -106,10 +94,9 @@ for (k in 2:length(stimu_lvl)){
 }
 
 
+# quality check 
 head(df_corrected)
-
 levels(as.factor(df_corrected$stimu))
-
 df_corrected %>% group_by(stimu) %>% count()
 
 
