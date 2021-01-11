@@ -13,7 +13,6 @@ square_pos$name = rownames(square_pos)
 # define area number we were looking on screen for calibration phase 
 area_number = dim(square_pos)[1]
 
-
 # Load data from the study for one consumer
 
 consumers_path = paste0("data/Gazedata/", consumers_name)
