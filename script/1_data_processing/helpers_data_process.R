@@ -6,14 +6,6 @@
 library(FactoMineR)
 library(tidyverse)
 
-# load raw data from GazeRecorder
-# insert your own path for the GazeRecorder txt file  
-data_gaze_raw <- read.table("data/record_23points_correction.txt")
-
-
-# define time of eye-tracking evaluation (in seconds)
-# start_time = 
-# stop time =  
 
 #' @param data 
 #' @param screen_size 
@@ -29,6 +21,28 @@ gaze_preprocess <- function(data,screen_size){
   )
   return(gaze_df)
 }
+
+
+#' @param data 
+#' @param t0 
+#' function to delete fist points of the dataset
+#' take as input the  data to clean
+#' return the data without the first time
+remove_first_time <- function(data,t0 = 5){
+  df <- data %>% filter(t > t0)
+  return(df)
+}
+
+#' @param data 
+#' @param t0 
+#' function to delete  last points of the dataset
+#' take as input the  data to clean
+#' return the data without last time points
+remove_last_time <- function(data,t1 = 60){
+  df <- data %>% filter(t < t1)
+  return(df)
+}
+
 
 #' function to split the data in two parts : correction and stimuli
 #' @param data 
@@ -65,8 +79,8 @@ gaze_correct_bary <- function(data){
               mean_y_eye = mean(y_eye))
   
   trans_mat <- full_join(data,bary_coord,by="group") %>% 
-    mutate(x_diff = x_real-mean_x_eye,
-           y_diff = y_real-mean_y_eye) %>% 
+    mutate(x_diff = xvec-mean_x_eye,
+           y_diff = yvec-mean_y_eye) %>% 
     mutate(x_trans = x_eye+x_diff,
            y_trans = y_eye+y_diff)
     
@@ -85,14 +99,18 @@ gaze_correct_bary <- function(data){
 #' and the stimuli data observed. And also the number of class decided earlier (matching the number
 #' of real point physically displayed on screen).
 #' return the different dataframes that are useful to apply the linear combination correction
-gaze_dist_weight_df <- function(data_real,data_barycenter,data_stimuli,nb_clust=area_number){
+gaze_dist_weight_df <- function(data_real,
+                                data_barycenter, 
+                                data_stimuli,
+                                nb_clust=area_number){
   
   nb_line_stimuli  <- dim(data_stimuli)[1]
   
   # get dataframe with same values for real points
   df_real_dup <- data_real %>% 
+    select(c(xvec,yvec,name)) %>% 
     pivot_wider(names_from = name, 
-                values_from = c(x_real,y_real)) %>% 
+                values_from = c(xvec,yvec)) %>% 
     slice(rep(1:n(),each=nb_line_stimuli))
   
   # get barycenter in row vector
@@ -155,62 +173,14 @@ gaze_dist_weight_df <- function(data_real,data_barycenter,data_stimuli,nb_clust=
 gaze_stimuli_combi <- function(data_stimuli,data_real,data_bary,data_weight,nb_clust=area_number){
   
   stimuli_correct <- data.frame(x = data_stimuli$x,
-                                y = data_stimuli$y)
+                                y = data_stimuli$y,
+                                t = data_stimuli$t)
   for (k in 1:nb_clust)
     {
     stimuli_correct[,1] <- stimuli_correct[,1] + (data_real[k]-data_bary[k])*data_weight[k]
     stimuli_correct[,2] <- stimuli_correct[,2] + (data_real[nb_clust+k]-data_bary[nb_clust+k])*data_weight[k]
   }
-  colnames(stimuli_correct) <- c("new_x","new_y")
+  colnames(stimuli_correct) <- c("new_x","new_y", "t")
   return(stimuli_correct)
 }
-
-################################################## 
-######## execution of function definition ######## 
-################################################## 
-
-# execute the pre-process function
-data_gaze <- gaze_preprocess(data_gaze_raw)
-
-# execute the split function 
-split <- split_time(data_gaze,12)
-
-#get correction data
-correction <- split[[1]]
-# get stimuli data
-stimuli <- split[[2]]
-
-# define weights you want to attribute to each variable for PCA
-pca_weights_input = c(1,1,5)
-
-# execute the classification function 
-data_class <- gaze_classif(correction)
-
-# add coordinates of real data
-df_join <- full_join(data_class, df_real, by=c("clust"="name")) %>% 
-  rename(x_eye = x, y_eye = y, group = clust)
-
-# get correction data with barycenter correction
-df_trans <- gaze_correct_bary(df_join)
-#get only barycenter data for each observed area
-df_bary <- unique(df_trans[,c("group","mean_x_eye","mean_y_eye","x_real","y_real")])
-
-dist_weight <- gaze_dist_weight_df(df_real,df_bary,stimuli)
-
-# separate each object created in dist_weight
-real_pivot <- dist_weight[[1]]
-bary_pivot <- dist_weight[[2]]
-weight <- dist_weight[[4]]
-dist <- dist_weight[[3]]
-
-# execute the linear combination
-stimuli_correct <- gaze_stimuli_combi(stimuli,real_pivot,bary_pivot,weight) 
-
-############
-####save####
-############
-
-# save file in data folder
-save(stimuli_correct,file="data/stimuli_rdy.RData")
-
 
