@@ -5,12 +5,14 @@ library(FactoMineR)
 library(tidyverse)
 library(ggplot2)
 
-## generer des heat maps : new data 
+## generer des heat maps : new data
+##data posiion carres de calibration
 data = read.table("data/record_correctionAndStimuli.txt")
+square_pos = read.csv("25 square position.csv", sep =";", header = TRUE, row.names = 1, dec = ".", colClasses = c("col" = "factor", "xvec" = "numeric", 'yvec' = "numeric"))
 head(data)
 
-x =  data$V1 * 31
-y = (1 - data$V2) * 17.4
+x =  data$V1 * 16
+y = (1 - data$V2) * 9
 
 df = data.frame(cbind(x,y, t = data$V3))
 df$t =( df$t - df$t[1])/1000
