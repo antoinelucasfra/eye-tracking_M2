@@ -7,7 +7,7 @@ library(officer)
 library(magrittr)
 library(imager)
 
-picture_list <- list.files("data/heatmap_eyetrack/", full.names = T)
+picture_list <- list.files(paste0("data/heatmap_eyetrack/",consumers_name), full.names = T)
 
 #' function that is returning a powerpoint with picture and heatmap from the path
 #'
@@ -30,7 +30,7 @@ ppt_generate <- function(slide_object, list_pictures, n_stimuli){
       # write the image name
       ph_with(value = picture_to_add, location = ph_location_type(type = "title")) 
       
-    print(slideshow, target = paste0("data/slides_to_show/",consumers_name))
+    print(slideshow, target = paste0("data/slides_to_show/",consumers_name,".pptx"))
   }
 }
 
@@ -39,6 +39,6 @@ slideshow <- read_pptx()
 
 # writing the powerpoint according to the picture mentionned
 
-ppt_generate(slideshow,picture_list,16)
+ppt_generate(slideshow,picture_list,2)
 
 

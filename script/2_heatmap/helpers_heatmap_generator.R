@@ -13,9 +13,10 @@ library(ggplot2)
 #' @param add_img TRUE/FALSE argument to decide whether or not to add the background stimuli on the heatmap
 #' @param transparency_img coefficient to modulate the transparency of the heatmap 
 
+data = df_corrected
 
 heatmap_generator = function(data,
-                             path_img = "experience/stimuli_img/COKPIT/Audi e-tron- COCKPIT.png", 
+                             path_img = "experience/stimuli_img/Audi e-tron- COCKPIT.png", 
                              width_size = 160, 
                              height_size = 90, 
                              add_img = TRUE, 
@@ -29,8 +30,8 @@ heatmap_generator = function(data,
     
     heatmap = ggplot(data, aes(x = new_x, y = new_y) ) +
       
-      theme_void() +
-      annotation_custom(img, xmin=0, xmax=16, ymin=0, ymax=9) +
+      # theme_void() +
+      # annotation_custom(img, xmin=0, xmax=16, ymin=0, ymax=9) +
       
       stat_density_2d(aes(fill = ..density..), 
                       geom = "raster", 
@@ -39,7 +40,7 @@ heatmap_generator = function(data,
       
       scale_fill_distiller(palette= "Spectral", direction=-1) +
       scale_x_continuous(limits = c(0, 16)) +
-      scale_y_continuous(limits = c(0, 16)) +
+      scale_y_continuous(limits = c(0, 9)) +
       
       coord_fixed(ratio = 1, xlim = c(0,16), ylim = c(0,9)) +
       

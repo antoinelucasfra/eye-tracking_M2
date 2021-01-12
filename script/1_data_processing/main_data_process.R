@@ -1,6 +1,5 @@
 # source code function
 source("script/1_data_processing/helpers_data_process.R")
-# source("script/2_heatmap/generate_fake_heatmaps.R")
 
 library(tidyr)
 
@@ -13,9 +12,9 @@ square_pos$name = rownames(square_pos)
 # define area number we were looking on screen for calibration phase 
 area_number = dim(square_pos)[1]
 
-# Load data from the study for one consumer
+# Load data from the study for the concerned consumer
 
-consumers_path = paste0("data/Gazedata/", consumers_name)
+consumers_path = paste0("data/gazedata/", consumers_name)
 
 df = data.frame()
 col = c("x", "y", "t", "stimu", "consu", "rank")
