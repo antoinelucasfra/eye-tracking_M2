@@ -16,12 +16,18 @@ area_number = dim(square_pos)[1]
 
 consumers_path = paste0("data/gazedata/", consumers_name)
 
-df = data.frame()
-col = c("x", "y", "t", "stimu", "consu", "rank")
+
+
+# googledrive download file !
 
 list_stimuli = list.files(consumers_path, full.names = FALSE)
 n_stimuli = length(list_stimuli)
-  
+
+# define an empty to dataframe to fill in the loop
+
+df = data.frame()
+col = c("x", "y", "t", "stimu", "consu", "rank")
+
 for (i in 1:n_stimuli){
   
   path_stimuli = paste0(consumers_path,"/", list_stimuli[i], "/ScreenRecorderPath.dat")
