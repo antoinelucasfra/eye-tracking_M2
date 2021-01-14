@@ -1,12 +1,13 @@
+library(tidyverse)
+
 # script for randomisation experimental planning
 
 nb_stimuli <- 16
 nb_consum <- 30
 
-stimuli <- LETTERS[1:nb_stimuli]
-consu <- 1:nb_consum
+stimuli <- c(712,254,896,475,823,546,112,963,761,452,967,811,779,663,814,795)
 
-df_random <- data
+consu <- 1:nb_consum
 
 set.seed(667)
 
