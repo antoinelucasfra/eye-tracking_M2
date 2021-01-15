@@ -5,12 +5,10 @@ library(gsheet)
 ########################### parameters #######################
 
 consumers_name = "4-thomas"
-consumers_number = 1
+consumers_number = as.numeric(gsub("([0-9]+).*$", "\\1", consumers_name))
 screen_size_input = c(9,16)
 
-# default parameters
-start_time = rep(5,17)
-end_time = rep(60,17)
+
 
 ##############################################################
 
@@ -23,9 +21,8 @@ drive_download(drive_path, path = folder_path, overwrite = TRUE)
 
 time_user_exp  = read.csv(folder_path, sep = ",", header = TRUE)
 
-
-start_time_vec = time_user_exp[,grepl( "start_time", col, fixed = TRUE)]
-end_time_vec = time_user_exp[,grepl( "end_time", col, fixed = TRUE)]
+start_time_vec = time_user_exp[time_user_exp$ordre == consumers_number ,grepl( "start_time", col, fixed = TRUE)]
+end_time_vec = time_user_exp[time_user_exp$ordre == consumers_number ,grepl( "end_time", col, fixed = TRUE)]
   
 # script to download all the screen recorder path from google drive 
 source("script/1_data_processing/download_googleDrive_data.R")
