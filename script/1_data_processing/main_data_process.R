@@ -48,8 +48,8 @@ stimu_lvl = levels(df$stimu)
 
 
 correction = df[(df$stimu == "0_correction") ,c("x", "y", "t")]
-correction = remove_first_time(correction, t0 = start_time_vec[1])
-correction = remove_last_time(correction, t1 = end_time_vec[1])
+correction = remove_first_time(correction, t0 = start_time_vec[1,1])
+correction = remove_last_time(correction, t1 = end_time_vec[1,1])
 
 data_class <- gaze_classif(correction,pca_weights = c(1,1,50), clust_number = area_number)
 levels(data_class$clust)
@@ -82,8 +82,8 @@ col = c("x", "y", "t", "stimu")
 for (k in 2:length(stimu_lvl)){
   
   stimuli_data <- df[df$stimu == stimu_lvl[k],]
-  stimuli_data = remove_first_time(stimuli_data, t0 = start_time_vec[k])
-  stimuli_data = remove_last_time(stimuli_data, t1 = end_time_vec[k])
+  stimuli_data = remove_first_time(stimuli_data, t0 = start_time_vec[1,k])
+  stimuli_data = remove_last_time(stimuli_data, t1 = end_time_vec[1,k])
   dist_weight <- gaze_dist_weight_df(square_pos,df_bary,stimuli_data)
   
   # separate each object created in dist_weight

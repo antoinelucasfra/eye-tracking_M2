@@ -1,6 +1,6 @@
 # script to execute the heatmap generation 
 
-library(gsheet)
+library(googledrive)
 
 ########################### parameters #######################
 
@@ -20,6 +20,7 @@ folder_path = "data/time_user_exp.csv"
 drive_download(drive_path, path = folder_path, overwrite = TRUE)
 
 time_user_exp  = read.csv(folder_path, sep = ",", header = TRUE)
+col = colnames(time_user_exp)
 
 start_time_vec = time_user_exp[time_user_exp$ordre == consumers_number ,grepl( "start_time", col, fixed = TRUE)]
 end_time_vec = time_user_exp[time_user_exp$ordre == consumers_number ,grepl( "end_time", col, fixed = TRUE)]
@@ -56,7 +57,13 @@ for(i in 2:length(stimu_lvl)){
   col <- colnames(df_corrected)
   df_corrected <- df[,1:4]
   colnames(df_corrected) <- col
-  heatmap_generator(df_corrected[as.character(df_corrected$stimu) == stimu_lvl[i],],
+  df_heatmaps = df_corrected[as.character(df_corrected$stimu) == stimu_lvl[i],]
+  df_heatmaps = remove_first_time(df_heatmaps, t0 = start_time_vec[1])
+  df_heatmaps = remove_last_time(df_heatmaps, t1 = end_time_vec[1])
+  
+  ## fin du if temporaire en attendant de corriger la classif,
+  # bien changé df_heatmaps 
+  heatmap_generator(df_heatmaps,
                     path_img = list_img_order[i-1], 
                     width_size = 640, height_size = 360, transparency_img = 0.6)
 }
