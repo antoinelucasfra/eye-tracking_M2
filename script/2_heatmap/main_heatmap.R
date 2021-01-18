@@ -43,7 +43,7 @@ list_img <- list.files("experience/cockpit_utile/")
 # load the exp plan 
 load("experience/plan_exp.RData")
 # get the list order for a given consumer
-consumers_list <- df_random[consumers_number,] 
+consumers_list <- plan_exp[consumers_number,] 
 
 # get the list_img in the order for a given consumer with their full path 
 list_img_order <- paste0("experience/cockpit_utile/",
