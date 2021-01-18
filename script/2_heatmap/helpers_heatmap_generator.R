@@ -1,8 +1,3 @@
-library(truncnorm)
-library(png)
-library(grid)
-library(ggplot2)
-
 
 #' Function to generate heatmaps from the stimuli dataframe 
 #'

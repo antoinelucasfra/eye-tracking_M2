@@ -1,4 +1,3 @@
-library(googledrive)
 
 path = paste0("Eyetracking/1ter_resultats_exp/", consumers_name)
 dir.create(paste0("data/gazedata/",consumers_name))
