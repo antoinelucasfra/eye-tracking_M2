@@ -1,12 +1,3 @@
-library(tensorflow)
-library(keras)
-library(png)
-library(stringr)
-library(lime)
-library(magick)
-library(reticulate)
-library(abind)
-
 
 source("script/2_heatmap/generate_fake_heatmaps.R")
 

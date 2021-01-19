@@ -1,10 +1,6 @@
 ######## script to process raw data from GazeRecorder #######
 # obtain a nice heatmap + stimuli output #
 
-# loading necessary packages
-
-library(FactoMineR)
-library(tidyverse)
 
 #' @param data 
 #' @param screen_size 
