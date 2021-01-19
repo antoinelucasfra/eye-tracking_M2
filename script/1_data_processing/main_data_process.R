@@ -1,7 +1,6 @@
 # source code function
 source("script/1_data_processing/helpers_data_process.R")
 
-library(tidyr)
 
 #Position of calibration square
 square_pos = read.csv("experience/25_square_position.csv", sep =";", header = TRUE, row.names = 1, dec = ".", colClasses = c("col" = "factor", "xvec" = "numeric", 'yvec' = "numeric"))

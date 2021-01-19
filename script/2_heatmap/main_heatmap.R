@@ -1,6 +1,3 @@
-# script to execute the heatmap generation 
-
-library(googledrive)
 
 ########################### parameters #######################
 
