@@ -4,7 +4,7 @@ library(googledrive)
 
 ########################### parameters #######################
 
-consumers_name = "4-thomas"
+consumers_name = "10-isaure"
 consumers_number = as.numeric(gsub("([0-9]+).*$", "\\1", consumers_name))
 screen_size_input = c(9,16)
 
@@ -58,8 +58,8 @@ for(i in 2:length(stimu_lvl)){
   df_corrected <- df[,1:4]
   colnames(df_corrected) <- col
   df_heatmaps = df_corrected[as.character(df_corrected$stimu) == stimu_lvl[i],]
-  df_heatmaps = remove_first_time(df_heatmaps, t0 = start_time_vec[1])
-  df_heatmaps = remove_last_time(df_heatmaps, t1 = end_time_vec[1])
+  df_heatmaps = remove_first_time(df_heatmaps, t0 = start_time_vec[1,k])
+  df_heatmaps = remove_last_time(df_heatmaps, t1 = end_time_vec[1,k])
   
   ## fin du if temporaire en attendant de corriger la classif,
   # bien changé df_heatmaps 
