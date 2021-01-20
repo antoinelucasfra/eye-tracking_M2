@@ -1,10 +1,9 @@
 
 ########################### parameters #######################
 
-consumers_name = "17-laura"
+consumers_name = "25-lea"
 consumers_number = as.numeric(gsub("([0-9]+).*$", "\\1", consumers_name))
 screen_size_input = c(9,16)
-
 
 
 ##############################################################

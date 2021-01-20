@@ -77,7 +77,9 @@ heatmap_generator = function(data,
   } 
     
   # save heatmap in the folder
-  filename <- stimu_lvl[i]
+  
+  filename <- as.character(consumers_list[i-1])
+
   png(file = paste0("data/gazedata/",consumers_name,"/heatmap/",filename,".png"), 
       width = width_size, 
       height = height_size)
