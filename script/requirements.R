@@ -28,6 +28,10 @@ library(magick)
 library(reticulate)
 library(abind)
 
+# helpers
+source("script/1_data_processing/helpers_data_process.R")
+source("script/2_heatmap/helpers_heatmap_generator.R")
+
 
 
 
