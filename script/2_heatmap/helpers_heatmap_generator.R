@@ -1,4 +1,3 @@
-
 #' Function to generate heatmaps from the stimuli dataframe 
 #'
 #' @param data dataframe to generate heatmaps
@@ -76,8 +75,7 @@ heatmap_generator = function(data,
       )
   } 
     
-  # save heatmap in the folder
-  
+  # save heatmap in the folder according the looped consumer 
   filename <- as.character(consumers_list[i-1])
 
   png(file = paste0("data/gazedata/",consumers_name,"/heatmap/",filename,".png"), 
@@ -86,3 +84,8 @@ heatmap_generator = function(data,
   plot(heatmap)
   dev.off()
 }
+
+
+
+
+
