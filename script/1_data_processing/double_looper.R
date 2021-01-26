@@ -33,6 +33,8 @@ double_loop = function(width_size= 640,
   
   consum = levels(df_all$consu)
   
+  consum = consum[-(1:2)]
+  
   for (k in consum){
     df_consu_k = df_all %>% filter(consu == k)
     stimu = unique(df_consu_k$stimu)
@@ -52,7 +54,7 @@ double_loop = function(width_size= 640,
     for (i in 1:length(stimu)){
       
       # data for the consumer K and the stimuli number i
-      data = df_consu_k[df_consu_k$stimu == stimu[i],1:3]
+      data = df_consu_k[df_consu_k$stimu == stimu[i],]
       
       # for method = correction : 
       if (method == "correction"){
@@ -112,16 +114,17 @@ double_loop = function(width_size= 640,
         
         if (i != 1){
           
-          # we are no doing heatmap for 0_correction
+          # we are not doing heatmap for 0_correction data
           
           df_calibration <- data %>%
             filter(t > start_time_vec[1,i]) %>% 
             filter(t < start_time_vec[1,i]+10)
           
+
           df_stimuli <- remove_first_time(data, start_time_vec[1,i]+10)
           df_stimuli <- remove_last_time(df_stimuli, end_time_vec[1,i])
-          
-          data_classif <- gaze_classif(df_calibration, clust_number = 5) %>% tibble()
+
+          data_classif <- gaze_classif(df_calibration, clust_number = 5) 
           
           data_classif <- data_classif %>% 
             group_by(clust) %>% 
@@ -143,7 +146,7 @@ double_loop = function(width_size= 640,
                    y_eye = y, 
                    group = clust, 
                    stimu = ï..stimu) %>% 
-            mutate(name = NULL)
+            mutate(name = NULL) %>% print(n=2000)
           
           # get correction data with barycenter correction
           df_trans <- gaze_correct_bary(df_join)
@@ -151,7 +154,7 @@ double_loop = function(width_size= 640,
           
           #get only barycenter data for each observed area
           df_corrected = data.frame()
-          col = c("x", "y", "t", "stimu")
+          # col_df_corrected = c("x", "y", "t", "stimu")
           
           dist_weight <- gaze_dist_weight_df(square_pos_temp,
                                              df_bary,
