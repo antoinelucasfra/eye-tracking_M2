@@ -28,12 +28,14 @@ double_loop = function(width_size= 640,
   # join correspondace file with square_pos by color (col)
   square_pos = left_join(square_pos, correspondance, by = "col")
   
+  # data checked by flavie
+  check = read.csv("experience/calibration_correlation.csv", header = TRUE,
+                   sep = ";", colClasses = c(id = "factor", "stimu" = "factor", "exploitability" = "factor"))
+  
   
   ################## double for loop #######################
   
   consum = levels(df_all$consu)
-  
-  consum = consum[-(1:2)]
   
   for (k in consum){
     df_consu_k = df_all %>% filter(consu == k)
@@ -54,7 +56,7 @@ double_loop = function(width_size= 640,
     for (i in 1:length(stimu)){
       
       # data for the consumer K and the stimuli number i
-      data = df_consu_k[df_consu_k$stimu == stimu[i],]
+      data = df_consu_k[df_consu_k$stimu == stimu[i],1:3]
       
       # for method = correction : 
       if (method == "correction"){
@@ -114,8 +116,13 @@ double_loop = function(width_size= 640,
       if (method == "heatmap_corrected"){
         
         if (i != 1){
-          
           # we are not doing heatmap for 0_correction data
+          
+          check_value <- check[(check$id == k) & (check$stimu == name_stimu[1,i]),] 
+          check_value = check_value$exploitability
+          
+          if (check_value %in% c("yes", "maybe")) {
+          # to select only well recorded data
           
           df_calibration <- data %>%
             filter(t > start_time_vec[1,i]) %>% 
@@ -182,7 +189,7 @@ double_loop = function(width_size= 640,
                                               k,"_",name_stimu[1,i],".png"),
                             add_img = TRUE,
                             width_size = width_size, height_size = height_size, transparency_img = 0.6)
-          
+          }
         }
       }
       
