@@ -8,7 +8,8 @@
 #' @param transparency_img coefficient to modulate the transparency of the heatmap 
 
 heatmap_generator = function(data,
-                             path_img = "experience/stimuli_img/Audi e-tron- COCKPIT.png", 
+                             path_img = "experience/cockpit_utile/112.png",
+                             file_name,
                              width_size = 160, 
                              height_size = 90, 
                              add_img = TRUE, 
@@ -17,7 +18,7 @@ heatmap_generator = function(data,
   #get the background image
   img <- readPNG(path_img)
   img <- rasterGrob(img, interpolate=TRUE)
-
+  
   if (add_img == TRUE){
     
     heatmap = ggplot(data, aes(x = new_x, y = new_y) ) +
@@ -44,9 +45,8 @@ heatmap_generator = function(data,
         axis.title.y = element_blank(),
         axis.text.y = element_blank(),
         axis.ticks.y = element_blank()
-        )
+      )
   }
-  
   else {
     
     heatmap = ggplot(data, aes(x = new_x, y = new_y) ) +
@@ -74,11 +74,9 @@ heatmap_generator = function(data,
         axis.ticks.y = element_blank()
       )
   } 
-    
-  # save heatmap in the folder according the looped consumer 
-  filename <- as.character(consumers_list[i-1])
-
-  png(file = paste0("data/gazedata/",consumers_name,"/heatmap/",filename,".png"), 
+ 
+  # save heatmap in the folder
+  png(file = file_name, 
       width = width_size, 
       height = height_size)
   plot(heatmap)

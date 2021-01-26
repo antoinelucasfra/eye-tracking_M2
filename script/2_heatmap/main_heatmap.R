@@ -20,7 +20,7 @@ col = colnames(time_user_exp)
 
 start_time_vec = time_user_exp[time_user_exp$ordre == consumers_number ,grepl( "start_time", col, fixed = TRUE)]
 end_time_vec = time_user_exp[time_user_exp$ordre == consumers_number ,grepl( "end_time", col, fixed = TRUE)]
-  
+
 # script to download all the screen recorder path from google drive 
 source("script/1_data_processing/download_googleDrive_data.R")
 
@@ -61,6 +61,8 @@ for(i in 2:length(stimu_lvl)){
   # bien changé df_heatmaps 
   heatmap_generator(df_heatmaps,
                     path_img = list_img_order[i-1], 
+                    file_name = paste0("data/gazedata/",consumers_name,"/heatmap/",filename,".png"), 
+                    add_img = FALSE,
                     width_size = 640, height_size = 360, transparency_img = 0.6)
 }
 
