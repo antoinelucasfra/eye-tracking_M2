@@ -146,7 +146,7 @@ double_loop = function(width_size= 640,
                    y_eye = y, 
                    group = clust, 
                    stimu = ï..stimu) %>% 
-            mutate(name = NULL) %>% print(n=2000)
+            mutate(name = NULL) 
           
           # get correction data with barycenter correction
           df_trans <- gaze_correct_bary(df_join)
@@ -154,8 +154,7 @@ double_loop = function(width_size= 640,
           
           #get only barycenter data for each observed area
           df_corrected = data.frame()
-          # col_df_corrected = c("x", "y", "t", "stimu")
-          
+
           dist_weight <- gaze_dist_weight_df(square_pos_temp,
                                              df_bary,
                                              df_stimuli,
