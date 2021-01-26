@@ -1,11 +1,6 @@
-# source code function
-source("script/1_data_processing/helpers_data_process.R")
-
-
 #Position of calibration square
 square_pos = read.csv("experience/25_square_position.csv", sep =";", header = TRUE, row.names = 1, dec = ".", colClasses = c("col" = "factor", "xvec" = "numeric", 'yvec' = "numeric"))
 square_pos$name = rownames(square_pos)
-
 
 ################################################
 # define area number we were looking on screen for calibration phase 
@@ -14,10 +9,6 @@ area_number = dim(square_pos)[1]
 # Load data from the study for the concerned consumer
 
 consumers_path = paste0("data/gazedata/", consumers_name)
-
-
-
-# googledrive download file !
 
 list_stimuli = list.files(consumers_path, full.names = FALSE)
 n_stimuli = length(list_stimuli)
@@ -60,14 +51,13 @@ data_class %>% group_by(clust) %>% rename(group=clust) %>% arrange(t)
 #### autre idée :
 # on affecte a chaque cluster, le point reel dont la distance cluster -> point réel est la plus faible.
 
-    
-  
-# joindre les classe avec les vrai points 
+
+# join each class points with real points position
 df_join <- full_join(data_class, square_pos, by=c("clust"="name")) %>% 
   rename(x_eye = x, y_eye = y, group = clust)
 
 
-#### suppose que la classif est bien faites : 
+#### supposing classification is well done
 
 # get correction data with barycenter correction
 df_trans <- gaze_correct_bary(df_join)
@@ -97,11 +87,9 @@ for (k in 2:length(stimu_lvl)){
   df_corrected = rbind(df_corrected, stimuli_correct)
 }
 
-
 # quality check 
-head(df_corrected)
-levels(as.factor(df_corrected$stimu))
-df_corrected %>% group_by(stimu) %>% count()
-
+# head(df_corrected)
+# levels(as.factor(df_corrected$stimu))
+# df_corrected %>% group_by(stimu) %>% count()
 
 
