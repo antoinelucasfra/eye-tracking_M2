@@ -4,7 +4,7 @@
 
 
 
-# load 
+# load library and script
 
 # divers
 library(tidyr)
@@ -31,10 +31,12 @@ library(abind)
 # helpers
 source("script/1_data_processing/helpers_data_process.R")
 source("script/2_heatmap/helpers_heatmap_generator.R")
+source("script/1_data_processing/load_data.R")
 
 
-
-
+# double for loop 
+library(gtools)
+library(stringr)
 
 
 
