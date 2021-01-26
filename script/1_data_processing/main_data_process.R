@@ -16,7 +16,6 @@ area_number = dim(square_pos)[1]
 consumers_path = paste0("data/gazedata/", consumers_name)
 
 
-
 # googledrive download file !
 
 list_stimuli = list.files(consumers_path, full.names = FALSE)

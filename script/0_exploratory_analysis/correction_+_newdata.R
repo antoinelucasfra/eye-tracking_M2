@@ -110,7 +110,7 @@ nb_clust = 5
 
 for (k in 1:nb_clust){
   vec_temp = sqrt( (df_stimuli_recardage$x - df_stimuli_recardage[,(12+k)])^2 +
-                    (df_stimuli_recardage$y - df_stimuli_recardage[,(17+k)])^2 )
+                     (df_stimuli_recardage$y - df_stimuli_recardage[,(17+k)])^2 )
   df_stimuli_recardage = cbind(df_stimuli_recardage, vec_temp )
 }
 colnames(df_stimuli_recardage) = c( col, "dist1", "dist2", "dist3", "dist4", "dist5")

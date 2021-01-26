@@ -78,7 +78,7 @@ gaze_correct_bary <- function(data){
            y_diff = yvec-mean_y_eye) %>% 
     mutate(x_trans = x_eye+x_diff,
            y_trans = y_eye+y_diff)
-    
+  
   return(trans_mat)
 }
 
@@ -89,15 +89,17 @@ gaze_correct_bary <- function(data){
 #' @param data_barycenter 
 #' @param data_stimuli 
 #' @param nb_clust 
-#' take as input 3 dataframe : the real points physically available on screen ; the real
-#' points with the mean of observed points during correction phase ; 
+#' take as input 3 dataframe : 
+#' the real points physically available on screen ; 
+#' the real points with the mean of observed points during correction phase ; 
 #' and the stimuli data observed. And also the number of class decided earlier (matching the number
 #' of real point physically displayed on screen).
+#' 
 #' return the different dataframes that are useful to apply the linear combination correction
 gaze_dist_weight_df <- function(data_real,
                                 data_barycenter, 
                                 data_stimuli,
-                                nb_clust=area_number){
+                                nb_clust = area_number){
   
   nb_line_stimuli  <- dim(data_stimuli)[1]
   
@@ -106,7 +108,7 @@ gaze_dist_weight_df <- function(data_real,
     select(c(xvec,yvec,name)) %>% 
     pivot_wider(names_from = name, 
                 values_from = c(xvec,yvec)) %>% 
-    slice(rep(1:n(),each=nb_line_stimuli))
+    slice(rep(1:n(),each = nb_line_stimuli))
   
   # get barycenter in row vector
   df_bary_dup <- data_barycenter %>% 
@@ -126,7 +128,7 @@ gaze_dist_weight_df <- function(data_real,
     
     # compute euclidean distance
     dist_temp <- sqrt((data_stimuli$x - df_bary_dup[,k])^2 +
-                       (data_stimuli$y - df_bary_dup[,nb_clust+k])^2)
+                        (data_stimuli$y - df_bary_dup[,nb_clust+k])^2)
     # rename the columns
     colnames(dist_temp) <- paste0("dist",k)
     dist <- cbind(dist,dist_temp)
@@ -171,7 +173,7 @@ gaze_stimuli_combi <- function(data_stimuli,data_real,data_bary,data_weight,nb_c
                                 y = data_stimuli$y,
                                 t = data_stimuli$t)
   for (k in 1:nb_clust)
-    {
+  {
     stimuli_correct[,1] <- stimuli_correct[,1] + (data_real[k]-data_bary[k])*data_weight[k]
     stimuli_correct[,2] <- stimuli_correct[,2] + (data_real[nb_clust+k]-data_bary[nb_clust+k])*data_weight[k]
   }
