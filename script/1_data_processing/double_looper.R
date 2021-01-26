@@ -69,9 +69,10 @@ double_loop = function(width_size= 640,
         
         plot = ggplot()+
           geom_point(data = cluster, aes(x=x,y=y,colour = clust))+
-          coord_fixed(ratio = 1, xlim = c(-10, 20), ylim = c(-10, 12)) +
-          geom_point(data = square_pos[square_pos$ï..stimu == name_stimu[1,i],], 
-                     aes(x=xvec,y=yvec, color = name, fill = name), 
+
+          coord_fixed(ratio = 1, xlim = c(-30, 30), ylim = c(-30, 30)) +
+          geom_point(data = square_pos[square_pos$ï..stimu == 795,], 
+                      aes(x=xvec,y=yvec, color = name, fill = name), 
                      shape = 15)+
           geom_point(data = square_pos[square_pos$col == "noir",], 
                      aes(x=xvec,y=yvec, color = name, fill = name), 
