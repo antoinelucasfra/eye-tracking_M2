@@ -1,8 +1,7 @@
 
 source("script/requirements.R")
 
-
-# Scrip to load heatmaps data in a compatible and their associated liking in a compatible shape for model inputs
+# Script to load heatmaps data in a compatible and their associated liking in a compatible shape for model inputs
 
 # loading labeled data 
 time_user_exp  = read.csv("data/time_user_exp.csv", sep = ",", header = TRUE)
@@ -40,7 +39,7 @@ source("script/3_ML_interpretability/helpers_load_heatmap.R")
 # temp variable declaration
 
 method_name = "heatmap_corrected"
-path_abs = "data/inputs_ml/"
+path_abs = "data/inputs_ML/"
 
 channel = 3
 height_size = 360
@@ -50,15 +49,12 @@ width_size = 640
 
 cnn_input <- loader_img(method_name = method_name, consumers_data = time_user)
 
-
-
 #### create train/test dataset ###
 
 # get full lists of img
 
-n_train = round(length(cnn_input$y) * 0.7)
+n_train = round(length(cnn_input$y) * 0.8)
 ind_train = sample(1:length(cnn_input$y), n_train )
-
 
 #train
 x_train <- cnn_input$x[ind_train,,,]
@@ -68,11 +64,12 @@ y_train <- as.array(cnn_input$y)[ind_train]
 x_test <- cnn_input$x[-ind_train,,,]
 y_test <- as.array(cnn_input$y)[-ind_train]
 
+ytemp_test <- y_test %>% to_categorical() 
+ytemp_train <- y_train %>% to_categorical()
 
 ###  keras algorithm
 
 #pooling layers
-
 cnn_model <- keras_model_sequential() %>% 
   layer_conv_2d(filters = 32, kernel_size = c(3,3), activation = "relu", 
                 input_shape = c(height_size,width_size,channel)) %>% 
@@ -95,6 +92,7 @@ cnn_model %>% compile(
   metrics = "accuracy"
 )
 
+# fit
 
 history <- cnn_model %>% 
   fit(

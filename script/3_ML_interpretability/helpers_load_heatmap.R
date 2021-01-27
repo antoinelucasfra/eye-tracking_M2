@@ -6,22 +6,20 @@
 #' @param height_size height of the generated heatmaps
 #' @param width_size width of the generated heatmaps 
 
-loader_img <- function (path_abs = "data/inputs_ml/", 
+loader_img <- function (path_abs = "data/inputs_ML/", 
                         method_name, 
                         consumers_data,
                         height_size=360, 
                         width_size=640){
   
 
-  img_path = list.files(paste0(path_abs,method_name,"/"),full.names = TRUE)
+  img_path = list.files(paste0(path_abs,method_name),full.names = TRUE)
   
-  name <- list.files(paste0(path_abs,method_name,"/"),full.names = FALSE)
+  name <- list.files(paste0(path_abs,method_name),full.names = FALSE)
   name <- gsub(".png","",name)
   
   # load the img according the path_img column 
   img <- lapply(img_path, FUN = readPNG) # list with the img per evaluator
-  
-
   
   # Creation of img as an array, input for the model with explicative variables (images)
   heat_img <- list()
