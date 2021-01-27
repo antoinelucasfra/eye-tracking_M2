@@ -6,7 +6,7 @@
 #' @param height_size height of the generated heatmaps
 #' @param width_size width of the generated heatmaps 
 
-loader_img <- function (path_abs = "data/inputs_ml/", 
+loader_img <- function (path_abs = "data/inputs_ML/", 
                         method_name, 
                         consumers_data,
                         height_size=360, 
