@@ -4,7 +4,10 @@ source("script/requirements.R")
 
 double_loop = function(width_size= 640, 
                        height_size = 360, 
-                       method = c("correction", "heatmap_uncorrected", "heatmap_corrected")
+                       method = c("correction", 
+                                  "heatmap_uncorrected",
+                                  "heatmap_corrected", 
+                                  "heatmap_corrected_yes")
 ) {
   
   #################### LOAD DATA ###################
@@ -58,7 +61,11 @@ double_loop = function(width_size= 640,
       # data for the consumer K and the stimuli number i
       data = df_consu_k[df_consu_k$stimu == stimu[i],1:3]
       
-      # for method = correction : 
+      
+      
+##################### method = correction ###################
+      
+      
       if (method == "correction"){
         
         data = remove_first_time(data,start_time_vec[1,i])
@@ -112,7 +119,12 @@ double_loop = function(width_size= 640,
       #   } 
       # }
       
-      ### method heatmap_corrected
+      
+      
+      ##################### method = heatmap_corrected ###################
+
+      
+      
       if (method == "heatmap_corrected"){
         
         if (i != 1){
@@ -193,6 +205,92 @@ double_loop = function(width_size= 640,
         }
       }
       
+      if (method == "heatmap_corrected_yes"){
+        
+        if (i != 1){
+          # we are not doing heatmap for 0_correction data
+          
+          check_value <- check[(check$id == k) & (check$stimu == name_stimu[1,i]),] 
+          check_value = check_value$exploitability
+          
+          if (check_value %in% c("yes")) {
+            # to select only well recorded data
+            
+            df_calibration <- data %>%
+              filter(t > start_time_vec[1,i]) %>% 
+              filter(t < start_time_vec[1,i]+10)
+            
+            
+            df_stimuli <- remove_first_time(data, start_time_vec[1,i]+10)
+            df_stimuli <- remove_last_time(df_stimuli, end_time_vec[1,i])
+            
+            data_classif <- gaze_classif(df_calibration, clust_number = 5) 
+            
+            data_classif <- data_classif %>% 
+              group_by(clust) %>% 
+              summarise(mean_t = median(t)) %>% 
+              mutate(rank = rank(mean_t)) %>% 
+              full_join(data_classif, by="clust") %>% 
+              arrange(rank)  %>% 
+              mutate(clust = rank, 
+                     rank = NULL,
+                     mean_t = NULL)
+            
+            
+            square_pos_temp = square_pos[(square_pos$ï..stimu == name_stimu[1,i]) |
+                                           (square_pos$col == "noir"),]
+            
+            # joindre les classe avec les vrai points 
+            df_join <- full_join(data_classif, square_pos_temp, by=c("clust"="num_bis")) %>% 
+              rename(x_eye = x,
+                     y_eye = y, 
+                     group = clust, 
+                     stimu = ï..stimu) %>% 
+              mutate(name = NULL) 
+            
+            # get correction data with barycenter correction
+            df_trans <- gaze_correct_bary(df_join)
+            df_bary <- unique(df_trans[,c("group","mean_x_eye","mean_y_eye","xvec","yvec")])
+            
+            #get only barycenter data for each observed area
+            df_corrected = data.frame()
+            
+            dist_weight <- gaze_dist_weight_df(square_pos_temp,
+                                               df_bary,
+                                               df_stimuli,
+                                               nb_clust = 5)
+            
+            # separate each object created in dist_weight
+            real_pivot <- dist_weight[[1]]
+            bary_pivot <- dist_weight[[2]]
+            weight <- dist_weight[[4]]
+            dist <- dist_weight[[3]]
+            
+            # execute the linear combination
+            stimuli_correct <- gaze_stimuli_combi(df_stimuli,
+                                                  real_pivot,
+                                                  bary_pivot,
+                                                  weight, 
+                                                  nb_clust= 5) 
+            stimuli_correct$stimu <- name_stimu[1,i]
+            df_corrected = rbind(df_corrected, stimuli_correct)
+            
+            heatmap_generator(df_corrected,
+                              path_img = paste0("experience/cockpit_utile/",name_stimu[1,i],".png"),
+                              file_name =paste0("data/inputs_ML/heatmap_corrected_yes/",
+                                                k,"_",name_stimu[1,i],".png"),
+                              add_img = TRUE,
+                              width_size = width_size, height_size = height_size, transparency_img = 0.6)
+          }
+        }
+      }
+      
+      
+      
+  ################### method = heatmap_corrected_yes ###################
+      
+      
+      
       ### other method here : 
       
       if (method == "heatmap_temporel"){
@@ -205,7 +303,7 @@ double_loop = function(width_size= 640,
 
 
 
-double_loop(method = "heatmap_corrected")
+
 
 
 

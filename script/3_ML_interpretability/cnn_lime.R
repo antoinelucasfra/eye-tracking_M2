@@ -60,6 +60,12 @@ y_train <- as.array(cnn_input$y)[ind_train]
 x_test <- cnn_input$x[-ind_train,,,]
 y_test <- as.array(cnn_input$y)[-ind_train]
 
+# transform the labeled 0,1 from y_test and y_train into categorical variable
+
+y_train <- y_train %>% to_categorical()
+y_test <- y_test %>% to_categorical()
+
+
 
 ###  keras algorithm
 
