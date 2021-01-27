@@ -5,10 +5,17 @@ source("script/requirements.R")
 double_loop = function(width_size= 640, 
                        height_size = 360, 
                        method = c("correction", 
+<<<<<<< Updated upstream
                                   "heatmap_uncorrected",
                                   "heatmap_corrected", 
                                   "heatmap_corrected_yes")
 ) {
+=======
+                                  "heatmap_uncorrected", 
+                                  "heatmap_corrected", 
+                                  "heatmap_perfect")
+                       ) {
+>>>>>>> Stashed changes
   
   #################### LOAD DATA ###################
   
@@ -63,7 +70,14 @@ double_loop = function(width_size= 640,
       
       
       
+<<<<<<< Updated upstream
 ##################### method = correction ###################
+=======
+      
+      
+      ################################## method = correction ############################# 
+      
+>>>>>>> Stashed changes
       
       
       if (method == "correction"){
@@ -100,7 +114,14 @@ double_loop = function(width_size= 640,
         dev.off()
       }
       
-      # ### method heatmaps uncorrected
+      
+      
+      
+      
+      
+     ############## method heatmaps uncorrected   ##############################
+      
+      
       # if (method == "heatmap_uncorrected"){
       #   if (i != 1){
       #     # We are not doing the heatmaps for 0_correction
@@ -121,8 +142,12 @@ double_loop = function(width_size= 640,
       
       
       
+<<<<<<< Updated upstream
       ##################### method = heatmap_corrected ###################
 
+=======
+      ######################  method heatmap_corrected  ######################
+>>>>>>> Stashed changes
       
       
       if (method == "heatmap_corrected"){
@@ -133,7 +158,7 @@ double_loop = function(width_size= 640,
           check_value <- check[(check$id == k) & (check$stimu == name_stimu[1,i]),] 
           check_value = check_value$exploitability
           
-          if (check_value %in% c("yes", "maybe")) {
+          if (check_value %in% c("parfait", "yes", "maybe")) {
           # to select only well recorded data
           
           df_calibration <- data %>%
@@ -205,6 +230,17 @@ double_loop = function(width_size= 640,
         }
       }
       
+<<<<<<< Updated upstream
+=======
+      
+      
+      
+      
+      ###############   Metode HEATMAP CORRECTED YES and perfect ##################
+      
+      
+      
+>>>>>>> Stashed changes
       if (method == "heatmap_corrected_yes"){
         
         if (i != 1){
@@ -213,7 +249,11 @@ double_loop = function(width_size= 640,
           check_value <- check[(check$id == k) & (check$stimu == name_stimu[1,i]),] 
           check_value = check_value$exploitability
           
+<<<<<<< Updated upstream
           if (check_value %in% c("yes")) {
+=======
+          if (check_value %in% c("parfait", "yes")) {
+>>>>>>> Stashed changes
             # to select only well recorded data
             
             df_calibration <- data %>%
@@ -228,7 +268,11 @@ double_loop = function(width_size= 640,
             
             data_classif <- data_classif %>% 
               group_by(clust) %>% 
+<<<<<<< Updated upstream
               summarise(mean_t = median(t)) %>% 
+=======
+              summarise(mean_t = mean(t)) %>% 
+>>>>>>> Stashed changes
               mutate(rank = rank(mean_t)) %>% 
               full_join(data_classif, by="clust") %>% 
               arrange(rank)  %>% 
@@ -287,8 +331,39 @@ double_loop = function(width_size= 640,
       
       
       
+<<<<<<< Updated upstream
   ################### method = heatmap_corrected_yes ###################
       
+=======
+      ##################### method perfect #######################
+      
+      if (method == "heatmap_perfect"){
+        
+        if (i != 1){
+          # we are not doing heatmap for 0_correction data
+          
+          check_value <- check[(check$id == k) & (check$stimu == name_stimu[1,i]),] 
+          check_value = check_value$exploitability
+          
+          if (check_value %in% c("parfait")) {
+            # to select only well recorded data
+            
+            df_stimuli <- remove_first_time(data, start_time_vec[1,i]+10)
+            df_stimuli <- remove_last_time(df_stimuli, end_time_vec[1,i])
+            
+            df_corrected <- df_stimuli[,1:3]
+            colnames(df_corrected) = c("new_x", "new_y", "t")
+            
+            heatmap_generator(df_corrected,
+                              path_img = paste0("experience/cockpit_utile/",name_stimu[1,i],".png"),
+                              file_name =paste0("data/inputs_ML/heatmap_perfect/",
+                                                k,"_",name_stimu[1,i],".png"),
+                              add_img = TRUE,
+                              width_size = width_size, height_size = height_size, transparency_img = 0.6)
+          }
+        }
+      }
+>>>>>>> Stashed changes
       
       
       ### other method here : 
@@ -303,8 +378,11 @@ double_loop = function(width_size= 640,
 
 
 
+<<<<<<< Updated upstream
 
 
 
+=======
+>>>>>>> Stashed changes
 
 

@@ -36,8 +36,15 @@ source("script/3_ML_interpretability/helpers_load_heatmap.R")
 ### load the heatmaps from the concerned folder ###
 
 # temp variable declaration
+<<<<<<< Updated upstream
 method_name = "heatmap_corrected"
 path_abs = "data/inputs_ml/"
+=======
+
+method_name = "heatmap_perfect"
+path_abs = "data/inputs_ML/"
+
+>>>>>>> Stashed changes
 channel = 3
 height_size = 360
 width_size = 640
@@ -103,6 +110,8 @@ history <- cnn_model %>%
     validation_data = list(x_test,y_test),
     verbose = 1
   )
+
+
 
 plot(history)
 
