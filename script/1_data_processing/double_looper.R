@@ -5,17 +5,10 @@ source("script/requirements.R")
 double_loop = function(width_size= 640, 
                        height_size = 360, 
                        method = c("correction", 
-<<<<<<< Updated upstream
-                                  "heatmap_uncorrected",
-                                  "heatmap_corrected", 
-                                  "heatmap_corrected_yes")
-) {
-=======
                                   "heatmap_uncorrected", 
                                   "heatmap_corrected", 
                                   "heatmap_perfect")
                        ) {
->>>>>>> Stashed changes
   
   #################### LOAD DATA ###################
   
@@ -70,14 +63,10 @@ double_loop = function(width_size= 640,
       
       
       
-<<<<<<< Updated upstream
-##################### method = correction ###################
-=======
-      
+
       
       ################################## method = correction ############################# 
       
->>>>>>> Stashed changes
       
       
       if (method == "correction"){
@@ -142,12 +131,8 @@ double_loop = function(width_size= 640,
       
       
       
-<<<<<<< Updated upstream
-      ##################### method = heatmap_corrected ###################
 
-=======
       ######################  method heatmap_corrected  ######################
->>>>>>> Stashed changes
       
       
       if (method == "heatmap_corrected"){
@@ -230,17 +215,12 @@ double_loop = function(width_size= 640,
         }
       }
       
-<<<<<<< Updated upstream
-=======
-      
-      
-      
+
       
       ###############   Metode HEATMAP CORRECTED YES and perfect ##################
       
       
       
->>>>>>> Stashed changes
       if (method == "heatmap_corrected_yes"){
         
         if (i != 1){
@@ -249,11 +229,8 @@ double_loop = function(width_size= 640,
           check_value <- check[(check$id == k) & (check$stimu == name_stimu[1,i]),] 
           check_value = check_value$exploitability
           
-<<<<<<< Updated upstream
-          if (check_value %in% c("yes")) {
-=======
+
           if (check_value %in% c("parfait", "yes")) {
->>>>>>> Stashed changes
             # to select only well recorded data
             
             df_calibration <- data %>%
@@ -268,11 +245,7 @@ double_loop = function(width_size= 640,
             
             data_classif <- data_classif %>% 
               group_by(clust) %>% 
-<<<<<<< Updated upstream
-              summarise(mean_t = median(t)) %>% 
-=======
               summarise(mean_t = mean(t)) %>% 
->>>>>>> Stashed changes
               mutate(rank = rank(mean_t)) %>% 
               full_join(data_classif, by="clust") %>% 
               arrange(rank)  %>% 
@@ -331,10 +304,7 @@ double_loop = function(width_size= 640,
       
       
       
-<<<<<<< Updated upstream
-  ################### method = heatmap_corrected_yes ###################
-      
-=======
+
       ##################### method perfect #######################
       
       if (method == "heatmap_perfect"){
@@ -363,7 +333,6 @@ double_loop = function(width_size= 640,
           }
         }
       }
->>>>>>> Stashed changes
       
       
       ### other method here : 
