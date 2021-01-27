@@ -7,7 +7,8 @@ double_loop = function(width_size= 640,
                        method = c("correction", 
                                   "heatmap_uncorrected", 
                                   "heatmap_corrected", 
-                                  "heatmap_perfect")
+                                  "heatmap_perfect",
+                                 "heatmap_corrected_yes")
                        ) {
   
   #################### LOAD DATA ###################
