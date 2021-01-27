@@ -6,22 +6,28 @@
 #' @param height_size height of the generated heatmaps
 #' @param width_size width of the generated heatmaps 
 
-loader_heatmap <- function (path_abs = "data/input_ML_",method_name, consumers_data, height_size=360, 
-                            width_size=640){
+loader_img <- function (path_abs = "data/inputs_ml/", 
+                        method_name, 
+                        consumers_data,
+                        height_size=360, 
+                        width_size=640){
   
-  time_user$path_img = paste0(path_abs,method_name,"/",time_user$nom,"_",time_user$label,".png")
+
+  img_path = list.files(paste0(path_abs,method_name,"/"),full.names = TRUE)
+  
+  name <- list.files(paste0(path_abs,method_name,"/"),full.names = FALSE)
+  name <- gsub(".png","",name)
   
   # load the img according the path_img column 
+  img <- lapply(img_path, FUN = readPNG) # list with the img per evaluator
   
-  img <- lapply(time_user$path_img[1:16], FUN = readPNG) # list with the 16 img per evaluator
+
   
   # Creation of img as an array, input for the model with explicative variables (images)
   heat_img <- list()
   heat_img$x <- array(0, c(length(img), height_size, width_size,3)) # image size 
-  
-  dim(heat_img$x)
-  dim(img[[1]])
-  
+
+
   # reshape heat_img$x
   for (k in 1:length(img)) {
     heat_img$x[k,,,] <- img[[k]][,,] 
@@ -30,6 +36,18 @@ loader_heatmap <- function (path_abs = "data/input_ML_",method_name, consumers_d
   # add a second element in the array which is the variable to explain : liking output
   # need to ensure the fact that the liking vector is in the same order like the heat_img array
   
-  heat_img$y <- time_user$liking[1:16]
+  consumers_data$consu_id = paste0(consumers_data$nom, "_", consumers_data$label)
+  
+  consumers_data <- consumers_data %>% filter(consu_id %in% name)
+  
+  heat_img$y <- as.factor(consumers_data$liking)
+  
+  heat_img$y <- as.numeric(recode(heat_img$y , "aime" = "1", "aime_pas" = "2"))
+  
+  heat_img$img_path = img_path
+  
+  heat_img$name = name
+  
   return(heat_img)
 }
+

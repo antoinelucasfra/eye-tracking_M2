@@ -1,3 +1,7 @@
+
+source("script/requirements.R")
+
+
 # Scrip to load heatmaps data in a compatible and their associated liking in a compatible shape for model inputs
 
 # loading labeled data 
@@ -34,22 +38,27 @@ source("script/3_ML_interpretability/helpers_load_heatmap.R")
 ### load the heatmaps from the concerned folder ###
 
 # temp variable declaration
-method_name = "basic"
-path_abs = "data/input_ML_"
+
+method_name = "heatmap_corrected"
+path_abs = "data/inputs_ml/"
+
 channel = 3
 height_size = 360
 width_size = 640
 
 # execute function
-cnn_input <- loader_heatmap(method_name = method_name, consumers_data = time_user)
+
+cnn_input <- loader_img(method_name = method_name, consumers_data = time_user)
+
+
 
 #### create train/test dataset ###
 
 # get full lists of img
-list_files <- list.files(path = paste0(path_abs,method_name))
 
-n_train = round(length(list_files) * 0.7)
-ind_train = sample(1:length(list_files), n_train )
+n_train = round(length(cnn_input$y) * 0.7)
+ind_train = sample(1:length(cnn_input$y), n_train )
+
 
 #train
 x_train <- cnn_input$x[ind_train,,,]
@@ -62,6 +71,8 @@ y_test <- as.array(cnn_input$y)[-ind_train]
 
 ###  keras algorithm
 
+#pooling layers
+
 cnn_model <- keras_model_sequential() %>% 
   layer_conv_2d(filters = 32, kernel_size = c(3,3), activation = "relu", 
                 input_shape = c(height_size,width_size,channel)) %>% 
@@ -70,17 +81,20 @@ cnn_model <- keras_model_sequential() %>%
   layer_max_pooling_2d(pool_size = c(2,2)) %>% 
   layer_conv_2d(filters = 64, kernel_size = c(3,3), activation = "relu")
 
+# dense layers
 cnn_model %>% 
   layer_flatten() %>% 
   layer_dense(units = 64, activation = "relu") %>% 
   layer_dense(units = 1, activation = "sigmoid")
 
+# compilation
 
 cnn_model %>% compile(
   optimizer = "adam",
   loss = "binary_crossentropy",
   metrics = "accuracy"
 )
+
 
 history <- cnn_model %>% 
   fit(
@@ -142,42 +156,4 @@ desagreable <- exp[exp$case == "fake43.png",]
 plot_image_explanation(desagreable)
 agreable <- exp[exp$case == "fake100.png",]
 plot_image_explanation(agreable)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
