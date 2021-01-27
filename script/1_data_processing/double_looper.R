@@ -346,12 +346,3 @@ double_loop = function(width_size= 640,
 }
 
 
-
-<<<<<<< Updated upstream
-
-
-
-=======
->>>>>>> Stashed changes
-
-
