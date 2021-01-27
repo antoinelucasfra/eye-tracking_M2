@@ -21,10 +21,12 @@ loader_img <- function (path_abs = "data/inputs_ml/",
   # load the img according the path_img column 
   img <- lapply(img_path, FUN = readPNG) # list with the img per evaluator
   
+
   
   # Creation of img as an array, input for the model with explicative variables (images)
   heat_img <- list()
   heat_img$x <- array(0, c(length(img), height_size, width_size,3)) # image size 
+
 
   # reshape heat_img$x
   for (k in 1:length(img)) {
@@ -48,3 +50,4 @@ loader_img <- function (path_abs = "data/inputs_ml/",
   
   return(heat_img)
 }
+

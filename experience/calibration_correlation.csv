@@ -33,7 +33,6 @@ id;stimu;exploitability
 2-romane;896;maybe
 3-hector;967;no
 3-hector;896;no
-3-hector;712;no
 3-hector;761;no
 3-hector;452;no
 3-hector;254;maybe
@@ -421,7 +420,7 @@ id;stimu;exploitability
 27-gregory;452;maybe
 27-gregory;475;complex
 27-gregory;546;no
-27-gregory;663;complexx
+27-gregory;663;complex
 27-gregory;712;no
 27-gregory;761;no
 27-gregory;779;no
@@ -498,7 +497,7 @@ id;stimu;exploitability
 31-melchior;967;maybe
 32-clement;112;maybe
 32-clement;254;no
-32-clement;453;no
+32-clement;452;no
 32-clement;475;maybe
 32-clement;546;complex
 32-clement;663;yes
@@ -507,7 +506,7 @@ id;stimu;exploitability
 32-clement;779;complex
 32-clement;795;maybe
 32-clement;811;yes
-32-clement;813;complex
+32-clement;814;complex
 32-clement;823;maybe
 32-clement;896;complex
 32-clement;963;maybe

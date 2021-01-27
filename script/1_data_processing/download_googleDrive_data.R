@@ -14,3 +14,24 @@ downloaded_files <- list.files(paste0("data/gazedata/",consumers_name))
 files <- files %>% filter(! name %in% downloaded_files)
 files
 
+downloaded_files <- list.files(paste0("data/gazedata/",consumers_name))
+
+files <- files %>% filter(! name %in% downloaded_files) 
+files
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
