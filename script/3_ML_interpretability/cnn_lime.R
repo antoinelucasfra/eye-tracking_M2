@@ -39,8 +39,8 @@ source("script/3_ML_interpretability/helpers_load_heatmap.R")
 
 # temp variable declaration
 
-method_name = "heatmap_corrected"
-path_abs = "data/inputs_ml/"
+method_name = "heatmap_perfect"
+path_abs = "data/inputs_ML/"
 
 channel = 3
 height_size = 360
@@ -67,6 +67,12 @@ y_train <- as.array(cnn_input$y)[ind_train]
 #test
 x_test <- cnn_input$x[-ind_train,,,]
 y_test <- as.array(cnn_input$y)[-ind_train]
+
+# transform the labeled 0,1 from y_test and y_train into categorical variable
+
+y_train <- y_train %>% to_categorical()
+y_test <- y_test %>% to_categorical()
+
 
 
 ###  keras algorithm
@@ -103,6 +109,8 @@ history <- cnn_model %>%
     validation_data = list(x_test,y_test),
     verbose = 1
   )
+
+
 
 plot(history)
 
