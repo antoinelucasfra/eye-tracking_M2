@@ -13,15 +13,13 @@ loader_img <- function (path_abs = "data/inputs_ML/",
                         width_size=640){
   
 
-  img_path = list.files(paste0(path_abs,method_name,"/"),full.names = TRUE)
+  img_path = list.files(paste0(path_abs,method_name),full.names = TRUE)
   
-  name <- list.files(paste0(path_abs,method_name,"/"),full.names = FALSE)
+  name <- list.files(paste0(path_abs,method_name),full.names = FALSE)
   name <- gsub(".png","",name)
   
-  # load the img according the path_img column 
+  # load the img according the img_path column 
   img <- lapply(img_path, FUN = readPNG) # list with the img per evaluator
-  
-
   
   # Creation of img as an array, input for the model with explicative variables (images)
   heat_img <- list()

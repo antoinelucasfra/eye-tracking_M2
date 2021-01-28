@@ -10,7 +10,8 @@ double_loop = function(width_size= 640,
                                   "heatmap_corrected", 
                                   "heatmap_perfect",
                                   "heatmap_corrected_yes",
-                                  "calibration_temporelle")
+                                  "calibration_temporelle",
+                                  "raw_image")
                        ) {
   
   #################### LOAD DATA ###################
@@ -45,6 +46,8 @@ double_loop = function(width_size= 640,
   ################## double for loop #######################
   
   consum = levels(df_all$consu)
+  
+  # generate raw_image 
   
   for (k in consum){
     df_consu_k = df_all %>% filter(consu == k)
@@ -90,7 +93,7 @@ double_loop = function(width_size= 640,
           geom_point(data = cluster, aes(x=x,y=y,colour = clust))+
           
           coord_fixed(ratio = 1, xlim = c(-30, 30), ylim = c(-30, 30)) +
-          geom_point(data = square_pos[square_pos$stimu == 795,], 
+          geom_point(data = square_pos[square_pos$stimu == name_stimu[1,i],], 
                      aes(x=xvec,y=yvec, color = name, fill = name), 
                      shape = 15)+
           geom_point(data = square_pos[square_pos$col == "noir",], 
@@ -209,6 +212,7 @@ double_loop = function(width_size= 640,
           # we are not doing heatmap for 0_correction data
           
           check_value <- check[(check$id == k) & (check$stimu == name_stimu[1,i]),] 
+
           check_value <- check_value$exploitability
 
           
@@ -440,7 +444,6 @@ double_loop = function(width_size= 640,
               filter(t > start_time_vec[1,i]) %>% 
               filter(t < start_time_vec[1,i]+10)
             
-            
             df_stimuli <- remove_first_time(data, start_time_vec[1,i]+10)
             df_stimuli <- remove_last_time(df_stimuli, end_time_vec[1,i])
             
@@ -448,7 +451,6 @@ double_loop = function(width_size= 640,
             
             data_classif <- data_classif %>% 
               group_by(clust) %>% 
-
               summarise(mean_t = mean(t)) %>% 
               mutate(rank = rank(mean_t)) %>% 
               full_join(data_classif, by="clust") %>% 
@@ -457,7 +459,7 @@ double_loop = function(width_size= 640,
                      rank = NULL,
                      mean_t = NULL)
             
-            
+           
             square_pos_temp = square_pos[(square_pos$stimu == name_stimu[1,i]) |
                                            (square_pos$col == "noir"),]
             
@@ -539,8 +541,21 @@ double_loop = function(width_size= 640,
 
       
       ### other method here : 
-      
       if (method == "heatmap_temporel"){
+      }
+      
+      if (method == "raw_image"){
+        if (i != 1){
+          
+        heatmap_generator(data,
+                          path_img = paste0("experience/cockpit_utile/",name_stimu[1,i],".png"),
+                          file_name = paste0("data/inputs_ML/raw_image/",
+                                             k,"_",name_stimu[1,i],".png"),
+                          add_img = TRUE, only_img = TRUE,
+                          width_size = width_size, height_size = height_size, 
+                          transparency_img = 0.6)
+        
+        }
         
       }
       
@@ -550,4 +565,5 @@ double_loop = function(width_size= 640,
 
 
 double_loop(method = "heatmap_corrected")
+
 
