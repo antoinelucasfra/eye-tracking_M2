@@ -2,13 +2,16 @@
 source("script/requirements.R")
 
 
+
 double_loop = function(width_size= 640, 
                        height_size = 360, 
                        method = c("correction", 
-
                                   "heatmap_uncorrected", 
                                   "heatmap_corrected", 
-                                  "heatmap_perfect") ) {
+                                  "heatmap_perfect",
+                                  "heatmap_corrected_yes",
+                                  "calibration_temporelle")
+                       ) {
   
   #################### LOAD DATA ###################
   
@@ -18,6 +21,7 @@ double_loop = function(width_size= 640,
   
   # all Rdata file 
   load(file = "data/df_all.RData")
+
   
   #Position of calibration square
   square_pos = read.csv("experience/25_square_position.csv", sep =";", header = TRUE, 
@@ -67,8 +71,9 @@ double_loop = function(width_size= 640,
       
       
       
-      
+
       ################################## method = correction ############################# 
+
       
       
       if (method == "correction"){
@@ -105,8 +110,70 @@ double_loop = function(width_size= 640,
         dev.off()
       }
       
+    ############# method calibration temporelle ################################
       
+      if(method == "calibration_temporelle"){
+        if( i != 1){
+        
+           check_value <- check[(check$id == k) & (check$stimu == name_stimu[1,i]),]$exploitability
+           
+           if (check_value != "no") {
+          
+             data = remove_first_time(data,start_time_vec[1,i])
+             data = remove_last_time(data,start_time_vec[1,i] + 10)
       
+             deb = start_time_vec[1,i]
+          
+          
+             transi = data[which((deb+0.5 < data$t) & (data$t < deb + 1.5)),]
+             transi$clust = 1
+             data_clust = transi
+             transi = data[which((deb+2.5 < data$t) & (data$t < deb + 3.5)),]
+             transi$clust = 2
+             data_clust = rbind(data_clust, transi)
+             transi = data[which((deb+4.5 < data$t) & (data$t < deb + 5.5)),]
+             transi$clust = 3
+          
+             data_clust = rbind(data_clust, transi)
+             transi = data[which((deb+6.5 < data$t) & (data$t < deb + 7.5)),]
+             transi$clust = 4
+             data_clust = rbind(data_clust, transi)
+             transi = data[which((deb+8.5 < data$t) & (data$t < deb + 9.5)),]
+             transi$clust = 5
+             data_clust = rbind(data_clust, transi)
+             data_clust$clust = as.factor(data_clust$clust)
+            
+             time_user_exp
+             square_col = correspondance[ï..stimu ]
+           
+             plot = ggplot()+
+               geom_point(data = data_clust, aes(x=x,y=y,colour = clust))+
+               coord_fixed(ratio = 1, xlim = c(-30, 30), ylim = c(-30, 30)) +
+               geom_point(data = square_pos[square_pos$ï..stimu == 795,], 
+                          aes(x=xvec,y=yvec, color = name, fill = name), 
+                          shape = 15)+
+               geom_point(data = square_pos[square_pos$col == "noir",], 
+                          aes(x=xvec,y=yvec, color = name, fill = name), 
+                          shape = 15)+
+               geom_segment(aes(x = 0, y = 9, xend = 16, yend = 9, colour = "segment"))+
+               geom_segment(aes(x = 0, y = 0, xend = 0, yend = 9, colour = "segment"))+
+               geom_segment(aes(x = 0, y = 0, xend = 16, yend = 0, colour = "segment"))+
+               geom_segment(aes(x = 16, y = 0, xend = 16, yend = 9, colour = "segment"))+
+               labs(title = paste("consumer : ", k, " stimu : ", stimu[i], " name :", name_stimu[i]))
+           
+          
+             png(file = paste0("data/inputs_ML/plot_correction/",k,"_",name_stimu[i],".png"),
+                 width = width_size,
+                 height = height_size)
+             plot(plot)
+             dev.off()
+           print(c(i,k))
+        
+          
+        }
+      }
+    
+      }
       
       
       
@@ -132,7 +199,8 @@ double_loop = function(width_size= 640,
       # }
       
       
-      ######################  method heatmap_corrected ALL ######################
+      ######################  method heatmap_corrected 3 type ######################
+
       
       
       if (method == "heatmap_corrected"){
@@ -142,6 +210,7 @@ double_loop = function(width_size= 640,
           
           check_value <- check[(check$id == k) & (check$stimu == name_stimu[1,i]),] 
           check_value <- check_value$exploitability
+
           
           if (check_value %in% c("parfait", "yes", "maybe", "complex", "no")) {
             # to select only well recorded data
@@ -352,8 +421,6 @@ double_loop = function(width_size= 640,
       }
       
       
-      
-      
       ###############   Metode HEATMAP CORRECTED YES and perfect ##################
       
       
@@ -381,7 +448,7 @@ double_loop = function(width_size= 640,
             
             data_classif <- data_classif %>% 
               group_by(clust) %>% 
-              
+
               summarise(mean_t = mean(t)) %>% 
               mutate(rank = rank(mean_t)) %>% 
               full_join(data_classif, by="clust") %>% 
@@ -469,6 +536,7 @@ double_loop = function(width_size= 640,
           }
         }
       }
+
       
       ### other method here : 
       
@@ -482,3 +550,4 @@ double_loop = function(width_size= 640,
 
 
 double_loop(method = "heatmap_corrected")
+

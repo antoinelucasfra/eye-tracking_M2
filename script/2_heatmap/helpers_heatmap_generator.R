@@ -1,4 +1,3 @@
-
 #' Function to generate heatmaps from the stimuli dataframe 
 #'
 #' @param data dataframe to generate heatmaps
@@ -75,9 +74,8 @@ heatmap_generator = function(data,
         axis.ticks.y = element_blank()
       )
   } 
-  
+ 
   # save heatmap in the folder
-  
   png(file = file_name, 
       width = width_size, 
       height = height_size)
@@ -137,33 +135,6 @@ heatmap_generator_bigger = function(data,
   plot(heatmap)
   dev.off()
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
