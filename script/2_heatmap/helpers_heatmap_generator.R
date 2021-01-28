@@ -107,6 +107,59 @@ heatmap_generator = function(data,
 
 
 
+#' function to do a bigger heatmaps with background picture
+#'
+#' @param data the data to print colnames(data)  = c("new_x", "new_y", "t")  
+#' @param path_img the path of the background picture
+#' @param file_name the nme of the outputs picture
+#' @param width_size width size
+#' @param height_size heigth size
+#' @param transparency_img thansparancy of the heatmaps
+#'
+#' @return
+#' @export
+#'
+#' @examples
+heatmap_generator_bigger = function(data,
+                             path_img = "experience/cockpit_utile/112.png",
+                             file_name,
+                             width_size = 160, 
+                             height_size = 90, 
+                             transparency_img = 0.8, 
+                             title = NULL){
+  
+  # get the background image 
+  img <- readPNG(path_img)
+  img <- rasterGrob(img, interpolate=TRUE)
+    
+    heatmap = ggplot(data, aes(x = new_x, y = new_y) ) +
+      
+      #theme_void() +
+      annotation_custom(img, xmin=0, xmax=16, ymin=0, ymax=9) +
+      
+      stat_density_2d(aes(fill = ..density..), 
+                      geom = "raster", 
+                      contour = FALSE, 
+                      alpha = transparency_img) +
+      
+      scale_fill_distiller(palette= "Spectral", direction=-1) +
+      scale_x_continuous(limits = c(-8,24)) +
+      scale_y_continuous(limits = c(-4.5,13.5)) +
+      
+      coord_fixed(ratio = 1, xlim = c(-8,24), ylim = c(-4.5,13.5)) +
+      ggtitle(title) 
+
+  # save heatmap in the folder
+  
+  png(file = file_name, 
+      width = width_size, 
+      height = height_size)
+  plot(heatmap)
+  dev.off()
+}
+
+
+
 
 
 
