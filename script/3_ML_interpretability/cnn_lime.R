@@ -27,6 +27,7 @@ time_user <- time_user %>% pivot_longer(cols = -nom,
                            values_ptypes = list(.value=character())) 
 
 
+
 ##################################
 ##### CNN ########################
 ##################################
@@ -38,7 +39,7 @@ source("script/3_ML_interpretability/helpers_load_heatmap.R")
 
 # temp variable declaration
 
-method_name = "heatmap_corrected"
+method_name = "raw_image"
 path_abs = "data/inputs_ML/"
 
 channel = 3
@@ -63,9 +64,6 @@ y_train <- as.array(cnn_input$y)[ind_train]
 #test
 x_test <- cnn_input$x[-ind_train,,,]
 y_test <- as.array(cnn_input$y)[-ind_train]
-
-ytemp_test <- y_test %>% to_categorical() 
-ytemp_train <- y_train %>% to_categorical()
 
 ###  keras algorithm
 
@@ -109,8 +107,6 @@ plot(history)
 ################# LIME interpretability ################
 ################################################### 
 
-
-list_files
 img_path <- paste0(path_abs,method_name,"/",list_files)
 
 image_prep2 <- function(x) {

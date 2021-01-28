@@ -13,13 +13,14 @@ heatmap_generator = function(data,
                              width_size = 160, 
                              height_size = 90, 
                              add_img = TRUE, 
+                             only_img = FALSE,
                              transparency_img = 0.8){
   
   #get the background image
   img <- readPNG(path_img)
   img <- rasterGrob(img, interpolate=TRUE)
   
-  if (add_img == TRUE){
+  if (add_img == TRUE & only_img == FALSE){
     
     heatmap = ggplot(data, aes(x = new_x, y = new_y) ) +
       
@@ -47,6 +48,27 @@ heatmap_generator = function(data,
         axis.ticks.y = element_blank()
       )
   }
+  
+  else if (only_img == TRUE & add_img == TRUE) {
+    
+    heatmap = ggplot(data, aes(x = x, y = y) ) +
+      
+      theme_void() +
+      annotation_custom(img, xmin=0, xmax=16, ymin=0, ymax=9) +
+      
+      coord_fixed(ratio = 1, xlim = c(0,16), ylim = c(0,9)) +
+      
+      theme(
+        legend.position='none', 
+        axis.title.x = element_blank(),
+        axis.text.x = element_blank(),
+        axis.ticks.x = element_blank(),
+        axis.title.y = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks.y = element_blank()
+      )
+  }
+  
   else {
     
     heatmap = ggplot(data, aes(x = new_x, y = new_y) ) +
@@ -82,6 +104,7 @@ heatmap_generator = function(data,
   plot(heatmap)
   dev.off()
 }
+
 
 
 

@@ -27,7 +27,6 @@ library(lime)
 library(magick)
 library(reticulate)
 library(abind)
-library(plyr)
 
 # helpers
 source("script/1_data_processing/helpers_data_process.R")
