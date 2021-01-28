@@ -1,4 +1,5 @@
 id;stimu;exploitability
+1-lucien;0;no
 1-lucien;779;no
 1-lucien;896;complex
 1-lucien;663;no
@@ -15,6 +16,7 @@ id;stimu;exploitability
 1-lucien;475;maybe
 1-lucien;761;complex
 1-lucien;452;complex
+2-romane;0;maybe
 2-romane;963;maybe
 2-romane;967;yes
 2-romane;112;no
@@ -31,6 +33,7 @@ id;stimu;exploitability
 2-romane;712;no
 2-romane;546;yes
 2-romane;896;maybe
+3-hector;0;complex
 3-hector;967;no
 3-hector;896;no
 3-hector;761;no
@@ -47,6 +50,7 @@ id;stimu;exploitability
 3-hector;546;maybe
 3-hector;475;no
 3-hector;663;no
+4-thomas;0;yes
 4-thomas;452;maybe
 4-thomas;761;maybe
 4-thomas;546;complex
@@ -63,6 +67,7 @@ id;stimu;exploitability
 4-thomas;712;yes
 4-thomas;795;maybe
 4-thomas;967;no
+5-juliette;0;maybe
 5-juliette;254;complex
 5-juliette;779;yes
 5-juliette;811;maybe
@@ -79,6 +84,7 @@ id;stimu;exploitability
 5-juliette;546;parfait
 5-juliette;761;complex
 5-juliette;795;yes
+6-zoe;0;parfait
 6-zoe;712;yes
 6-zoe;452;yes
 6-zoe;896;yes
@@ -95,6 +101,7 @@ id;stimu;exploitability
 6-zoe;475;maybe
 6-zoe;663;no
 6-zoe;814;no
+7-baptiste;0;maybe
 7-baptiste;795;no
 7-baptiste;546;no
 7-baptiste;452;maybe
@@ -111,6 +118,7 @@ id;stimu;exploitability
 7-baptiste;823;yes
 7-baptiste;712;no
 7-baptiste;112;yes
+8-oceane;0;complex
 8-oceane;963;parfait
 8-oceane;823;yes
 8-oceane;811;yes
@@ -127,6 +135,7 @@ id;stimu;exploitability
 8-oceane;254;complex
 8-oceane;814;no
 8-oceane;475;maybe
+9-juliette;0;complex
 9-juliette;779;no
 9-juliette;811;complex
 9-juliette;963;no
@@ -143,6 +152,7 @@ id;stimu;exploitability
 9-juliette;712;maybe
 9-juliette;112;maybe
 9-juliette;254;yes
+10-isaure;0;no
 10-isaure;896;no
 10-isaure;452;yes
 10-isaure;963;complex
@@ -159,6 +169,7 @@ id;stimu;exploitability
 10-isaure;814;maybe
 10-isaure;795;parfait
 10-isaure;546;yes
+11-justine;0;yes
 11-justine;112;no
 11-justine;254;parfait
 11-justine;896;yes
@@ -175,6 +186,7 @@ id;stimu;exploitability
 11-justine;475;maybe
 11-justine;963;no
 11-justine;546;no
+12-annevictoire;0;complex
 12-annevictoire;761;no
 12-annevictoire;811;parfait
 12-annevictoire;795;parfait
@@ -191,6 +203,7 @@ id;stimu;exploitability
 12-annevictoire;546;yes
 12-annevictoire;967;parfait
 12-annevictoire;823;parfait
+13-oriane;0;no
 13-oriane;475;no
 13-oriane;254;complex
 13-oriane;814;no
@@ -207,6 +220,7 @@ id;stimu;exploitability
 13-oriane;452;maybe
 13-oriane;823;no
 13-oriane;779;no
+14-maxime;0;parfait
 14-maxime;475;complex
 14-maxime;814;yes
 14-maxime;452;yes
@@ -224,6 +238,7 @@ id;stimu;exploitability
 14-maxime;779;yes
 14-maxime;112;parfait
 15-pauline;811;no
+15-pauline;0;no
 15-pauline;795;complex
 15-pauline;546;complex
 15-pauline;761;complex
@@ -239,6 +254,7 @@ id;stimu;exploitability
 15-pauline;967;maybe
 15-pauline;254;complex
 15-pauline;475;complex
+16-nelly;0;maybe
 16-nelly;963;parfait
 16-nelly;823;no
 16-nelly;896;yes
@@ -255,6 +271,7 @@ id;stimu;exploitability
 16-nelly;663;parfait
 16-nelly;546;no
 16-nelly;811;complex
+17-laura;0;yes
 17-laura;967;yes
 17-laura;963;yes
 17-laura;546;yes
@@ -271,6 +288,7 @@ id;stimu;exploitability
 17-laura;811;complex
 17-laura;475;no
 17-laura;254;parfait
+18-damien;0;maybe
 18-damien;112;yes
 18-damien;795;yes
 18-damien;811;parfait
@@ -287,6 +305,7 @@ id;stimu;exploitability
 18-damien;779;yes
 18-damien;967;yes
 18-damien;814;maybe
+19-emma;0;maybe
 19-emma;761;complex
 19-emma;795;no
 19-emma;823;yes
@@ -303,6 +322,7 @@ id;stimu;exploitability
 19-emma;963;maybe
 19-emma;546;yes
 19-emma;779;yes
+20-hugo;0;parfait
 20-hugo;761;no
 20-hugo;475;maybe
 20-hugo;814;yes
@@ -319,6 +339,7 @@ id;stimu;exploitability
 20-hugo;811;maybe
 20-hugo;663;no
 20-hugo;452;maybe
+21-caroline;0;complex
 21-caroline;814;complex
 21-caroline;779;maybe
 21-caroline;811;yes
@@ -335,6 +356,7 @@ id;stimu;exploitability
 21-caroline;795;yes
 21-caroline;761;maybe
 21-caroline;663;complex
+22-eloise;0;no
 22-eloise;823;parfait
 22-eloise;779;yes
 22-eloise;452;no
@@ -351,6 +373,7 @@ id;stimu;exploitability
 22-eloise;475;complex
 22-eloise;811;yes
 22-eloise;254;maybe
+23-maxine;0;yes
 23-maxine;795;yes
 23-maxine;546;maybe
 23-maxine;112;maybe
@@ -367,6 +390,7 @@ id;stimu;exploitability
 23-maxine;779;complex
 23-maxine;254;no
 23-maxine;811;parfait
+24-audrey;0;yes
 24-audrey;254;maybe
 24-audrey;967;no
 24-audrey;811;parfait
@@ -383,6 +407,7 @@ id;stimu;exploitability
 24-audrey;712;yes
 24-audrey;795;maybe
 24-audrey;475;maybe
+25-lea;0;no
 25-lea;112;complex
 25-lea;254;maybe
 25-lea;452;no
@@ -399,6 +424,7 @@ id;stimu;exploitability
 25-lea;896;maybe
 25-lea;963;no
 25-lea;967;no
+26-rindra;0;complex
 26-rindra;112;no
 26-rindra;254;complex
 26-rindra;452;complex
@@ -415,6 +441,7 @@ id;stimu;exploitability
 26-rindra;896;complex
 26-rindra;963;complex
 26-rindra;967;yes
+27-gregory;0;yes
 27-gregory;112;yes
 27-gregory;254;complex
 27-gregory;452;maybe
@@ -431,6 +458,7 @@ id;stimu;exploitability
 27-gregory;896;yes
 27-gregory;963;no
 27-gregory;967;complex
+28-chloe;0;complex
 28-chloe;112;no
 28-chloe;254;complex
 28-chloe;452;complex
@@ -447,6 +475,7 @@ id;stimu;exploitability
 28-chloe;896;complex
 28-chloe;963;complex
 28-chloe;967;yes
+29-mathilde;0;complex
 29-mathilde;112;yes
 29-mathilde;254;yes
 29-mathilde;452;no
@@ -463,6 +492,7 @@ id;stimu;exploitability
 29-mathilde;896;yes
 29-mathilde;963;no
 29-mathilde;967;complex
+30-mahaut;0;complex
 30-mahaut;112;maybe
 30-mahaut;254;no
 30-mahaut;452;complex
@@ -479,6 +509,7 @@ id;stimu;exploitability
 30-mahaut;896;yes
 30-mahaut;963;yes
 30-mahaut;967;yes
+31-melchior;0;no
 31-melchior;112;no
 31-melchior;254;no
 31-melchior;452;no
@@ -495,6 +526,7 @@ id;stimu;exploitability
 31-melchior;896;no
 31-melchior;963;complex
 31-melchior;967;maybe
+32-clement;0;no
 32-clement;112;maybe
 32-clement;254;no
 32-clement;452;no
@@ -511,6 +543,7 @@ id;stimu;exploitability
 32-clement;896;complex
 32-clement;963;maybe
 32-clement;967;maybe
+33-remi;0;maybe
 33-remi;112;no
 33-remi;254;maybe
 33-remi;452;complex
@@ -527,6 +560,7 @@ id;stimu;exploitability
 33-remi;896;no
 33-remi;963;maybe
 33-remi;967;no
+34-lucie;0;yes
 34-lucie;112;maybe
 34-lucie;254;no
 34-lucie;452;complex
