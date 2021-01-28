@@ -28,7 +28,7 @@ double_loop = function(width_size= 640,
   
   
   # correspondace file
-  correspondance = read.csv("experience/correspondance_stimu_couleur.csv", sep = ";")
+  correspondance = read.csv("experience/correspondance_stimu_couleur.csv", sep = ";", fileEncoding= "UTF-8-BOM")
   
   # join correspondace file with square_pos by color (col)
   square_pos = left_join(square_pos, correspondance, by = "col")
@@ -85,7 +85,7 @@ double_loop = function(width_size= 640,
           geom_point(data = cluster, aes(x=x,y=y,colour = clust))+
           
           coord_fixed(ratio = 1, xlim = c(-30, 30), ylim = c(-30, 30)) +
-          geom_point(data = square_pos[square_pos$ï..stimu == 795,], 
+          geom_point(data = square_pos[square_pos$stimu == 795,], 
                      aes(x=xvec,y=yvec, color = name, fill = name), 
                      shape = 15)+
           geom_point(data = square_pos[square_pos$col == "noir",], 
@@ -177,7 +177,7 @@ double_loop = function(width_size= 640,
               geom_point(data = cluster, aes(x=x,y=y,colour = clust))+
               
               coord_fixed(ratio = 1, xlim = c(-8, 24), ylim = c(-4.5, 13.5)) +
-              geom_point(data = square_pos[square_pos$ï..stimu == name_stimu[1,i],], 
+              geom_point(data = square_pos[square_pos$stimu == name_stimu[1,i],], 
                          aes(x=xvec,y=yvec, color = num_bis, fill = num_bis), 
                          shape = 15)+
               geom_point(data = square_pos[square_pos$col == "noir",], 
@@ -235,7 +235,7 @@ double_loop = function(width_size= 640,
               geom_point(data = cluster_translated, aes(x=x,y=y,colour = clust))+
               
               coord_fixed(ratio = 1, xlim = c(-8, 24), ylim = c(-4.5, 13.5)) +
-              geom_point(data = square_pos[square_pos$ï..stimu == name_stimu[1,i],], 
+              geom_point(data = square_pos[square_pos$stimu == name_stimu[1,i],], 
                          aes(x=xvec,y=yvec, color = num_bis, fill = num_bis), 
                          shape = 15)+
               geom_point(data = square_pos[square_pos$col == "noir",], 
@@ -272,7 +272,7 @@ double_loop = function(width_size= 640,
             
             
             
-            square_pos_temp = square_pos[(square_pos$ï..stimu == name_stimu[1,i]) |
+            square_pos_temp = square_pos[(square_pos$stimu == name_stimu[1,i]) |
                                            (square_pos$col == "noir"),]
             
             # joindre les classe avec les vrai points 
@@ -280,7 +280,7 @@ double_loop = function(width_size= 640,
               rename(x_eye = x,
                      y_eye = y, 
                      group = clust, 
-                     stimu = ï..stimu) %>% 
+                     stimu = stimu) %>% 
               mutate(name = NULL) 
             
             # get correction data with barycenter correction
@@ -291,7 +291,7 @@ double_loop = function(width_size= 640,
               geom_point(data = df_trans, aes(x= x_eye + x_diff,y= y_eye + y_diff,colour = group)) +
               
               coord_fixed(ratio = 1, xlim = c(-8, 24), ylim = c(-4.5, 13.5)) +
-              geom_point(data = square_pos[square_pos$ï..stimu == name_stimu[1,i],], 
+              geom_point(data = square_pos[square_pos$stimu == name_stimu[1,i],], 
                          aes(x=xvec,y=yvec, color = num_bis, fill = num_bis), 
                          shape = 15) +
               geom_point(data = square_pos[square_pos$col == "noir",], 
@@ -391,7 +391,7 @@ double_loop = function(width_size= 640,
                      mean_t = NULL)
             
             
-            square_pos_temp = square_pos[(square_pos$ï..stimu == name_stimu[1,i]) |
+            square_pos_temp = square_pos[(square_pos$stimu == name_stimu[1,i]) |
                                            (square_pos$col == "noir"),]
             
             # joindre les classe avec les vrai points 
@@ -399,7 +399,7 @@ double_loop = function(width_size= 640,
               rename(x_eye = x,
                      y_eye = y, 
                      group = clust, 
-                     stimu = ï..stimu) %>% 
+                     stimu = stimu) %>% 
               mutate(name = NULL) 
             
             # get correction data with barycenter correction
