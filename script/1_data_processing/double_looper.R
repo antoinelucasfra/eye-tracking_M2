@@ -380,7 +380,7 @@ double_loop = function(width_size= 640,
           check_value <- check[(check$id == k) & (check$stimu == name_stimu[1,i]),] 
           check_value = check_value$exploitability
           
-          if (check_value != "no") {
+          if (check_value %in% c("parfait")) {
             # to select only well recorded data
             
             df_stimuli <- remove_first_time(data, start_time_vec[1,i]+10)
