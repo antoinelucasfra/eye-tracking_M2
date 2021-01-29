@@ -136,7 +136,7 @@ gaze_dist_weight_df <- function(data_real,
   dist <- dist[,-1] # erase the pseudo columns useful to create the dataframe at first
   
   # get max distance between each clusters per line
-  dist$max_dist <- apply(dist,1,max)
+  dist$sum_dist <- apply(dist,1,sum)
   # create the 5 weights variable from each clusters
   
   weights <- data.frame(temp=rep(0,nb_line_stimuli))
@@ -144,7 +144,7 @@ gaze_dist_weight_df <- function(data_real,
   for (k in 1:nb_clust){
     
     # compute a weight ratio
-    weight_temp <- 1 - dist[,k] / dist$max_dist
+    weight_temp <-  dist[,k] / dist$sum_dist
     name_weights[k] <- paste0("weight",k)
     # rename the columns
     weights <- cbind(weights,weight_temp)
