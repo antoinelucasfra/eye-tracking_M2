@@ -145,7 +145,7 @@ gaze_dist_weight_df <- function(data_real,
   for (k in 1:nb_clust){
     
     # compute a weight ratio
-    weight_temp <-  dist[,k] / dist$sum_dist
+    weight_temp <- (1 - (dist[,k]/dist$sum_dist)) 
     name_weights[k] <- paste0("weight",k)
     # rename the columns
     weights <- cbind(weights,weight_temp)
@@ -168,14 +168,18 @@ gaze_dist_weight_df <- function(data_real,
 #'take as input the 4 dataframes : the stimuli data points ; the real data points
 #'pivoted for each class ; the pivot with barycenter for each class ; the weights 
 #'calculated according our method
-gaze_stimuli_combi <- function(data_stimuli,data_real,data_bary,data_weight,nb_clust=area_number){
+gaze_stimuli_combi <- function(data_stimuli,
+                               data_real,
+                               data_bary,
+                               data_weight,
+                               nb_clust = area_number){
   
   stimuli_correct <- data.frame(x = data_stimuli$x,
                                 y = data_stimuli$y,
                                 t = data_stimuli$t)
   for (k in 1:nb_clust)
   {
-    stimuli_correct[,1] <- stimuli_correct[,1] + (data_real[k]-data_bary[k])*data_weight[k]
+    stimuli_correct[,1] <- stimuli_correct[,1] +  
     stimuli_correct[,2] <- stimuli_correct[,2] + (data_real[nb_clust+k]-data_bary[nb_clust+k])*data_weight[k]
   }
   colnames(stimuli_correct) <- c("new_x","new_y", "t")

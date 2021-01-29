@@ -428,6 +428,35 @@ double_loop = function(width_size= 640,
               stimuli_correct$stimu <- name_stimu[1,i]
               df_corrected = rbind(df_corrected, stimuli_correct)
               
+              ggplot()+
+                geom_point(data = df_join, aes(x = x_eye, y = y_eye, color = group))+
+                coord_fixed(ratio = 1, xlim = c(-8,24 ), ylim = c(-4.5,13.5)) +
+                geom_point(data = df_join, aes(x=xvec,y=yvec, color = group, fill = group), 
+                           shape = 15)+
+                geom_segment(aes(x = 0, y = 9, xend = 16, yend = 9, colour = "segment"))+
+                geom_segment(aes(x = 0, y = 0, xend = 0, yend = 9, colour = "segment"))+
+                geom_segment(aes(x = 0, y = 0, xend = 16, yend = 0, colour = "segment"))+
+                geom_segment(aes(x = 16, y = 0, xend = 16, yend = 9, colour = "segment"))+
+                labs(title = paste("consumer : ", k, " stimu : ", stimu[i], " name :", name_stimu[i]))
+                
+              
+              ggplot()+
+                geom_point(data = data_translated, aes(x = new_x, y = new_y, color = "red"))+
+                geom_point(data = df_corrected, aes(x=new_x,y=new_y, col = "blue")) +
+                  coord_fixed(ratio = 1, xlim = c(-8,24 ), ylim = c(-4.5,13.5)) +
+                geom_point(data = square_pos[square_pos$stimu == name_stimu[1,i],], 
+                           aes(x=xvec,y=yvec, color = name, fill = name), 
+                           shape = 15)+
+                geom_point(data = square_pos[square_pos$col == "noir",], 
+                           aes(x=xvec,y=yvec, color = name, fill = name), 
+                           shape = 15)+
+                geom_segment(aes(x = 0, y = 9, xend = 16, yend = 9, colour = "segment"))+
+                geom_segment(aes(x = 0, y = 0, xend = 0, yend = 9, colour = "segment"))+
+                geom_segment(aes(x = 0, y = 0, xend = 16, yend = 0, colour = "segment"))+
+                geom_segment(aes(x = 16, y = 0, xend = 16, yend = 9, colour = "segment"))+
+                labs(title = paste("consumer : ", k, " stimu : ", stimu[i], " name :", name_stimu[i]))
+                
+              
               heatmap_generator_bigger(data = df_corrected,
                                        path_img = paste0("experience/cockpit_utile/",name_stimu[1,i],".png"),
                                        file_name = paste0("data/inputs_ML/3_type_visu/",
@@ -509,10 +538,10 @@ double_loop = function(width_size= 640,
               dist <- dist_weight[[3]]
               
               # execute the linear combination
-              stimuli_correct <- gaze_stimuli_combi(df_stimuli,
-                                                    real_pivot,
-                                                    bary_pivot,
-                                                    weight, 
+              stimuli_correct <- gaze_stimuli_combi(data_stimuli = df_stimuli,
+                                                    data_real = real_pivot,
+                                                    data_bary = bary_pivot,
+                                                    data_weight = weight, 
                                                     nb_clust= 5) 
               stimuli_correct$stimu <- name_stimu[1,i]
               df_corrected = rbind(df_corrected, stimuli_correct)
