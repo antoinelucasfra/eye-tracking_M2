@@ -92,7 +92,8 @@ gaze_correct_bary <- function(data){
 #' take as input 3 dataframe : 
 #' the real points physically available on screen ; 
 #' the real points with the mean of observed points during correction phase ; 
-#' and the stimuli data observed. And also the number of class decided earlier (matching the number
+#' and the stimuli data observed.
+#' And also the number of class decided earlier (matching the number
 #' of real point physically displayed on screen).
 #' 
 #' return the different dataframes that are useful to apply the linear combination correction
