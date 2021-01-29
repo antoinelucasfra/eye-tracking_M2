@@ -39,6 +39,18 @@ library(gtools)
 library(stringr)
 
 
+# if (!requireNamespace("BiocManager", quietly = TRUE)){
+#   install.packages("BiocManager")
+#   BiocManager::install(version = "3.12")
+# }
+# 
+# BiocManager::install("EBImage")
 
+library(EBImage)
+
+
+# ## need to install keras and tensorflow ?
+# install_tensorflow()
+# install_keras()
 
 
