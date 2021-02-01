@@ -18,23 +18,42 @@ colnames(time_user) <- str_replace_all(colnames(time_user),"X","stimu")
 time_user <- as.data.frame(apply(X =  time_user, FUN = as.character, MARGIN = 2))
 
 # make a pivot table to have the right shape of the data
-time_user <- time_user %>% pivot_longer(cols = -nom,
-                                        names_to = c("stimu",".value"),
-                                        names_sep = "_", 
-                                        values_ptypes = list(.value=character())) 
+time_anova <- time_user %>% 
+  pivot_longer(cols = -nom,
+               names_to = c("stimu",".value"),
+               names_sep = "_",
+               values_ptypes = list(.value=character())) %>% 
+  select(-stimu)
 
+
+# barplot for liking data
+
+time_anova %>% group_by(label,liking) %>% 
+  count()
+
+time_anova %>% group_by(label,liking) %>% 
+  count() %>% 
+  ggplot() +
+  geom_bar(aes(x=label,y=n,fill=liking), stat = "identity") +
+  geom_vline()
 
 
 # test for the stimuli effect
 table(time_anova$label,time_anova$liking)
 chisq.test(time_anova$liking,time_anova$label)
 
-# there is a stimuli effect ! 
 
+# there is a stimuli effect ! 
 
 # test for the judge effect
 table(time_anova$nom,time_anova$liking)
 chisq.test(time_anova$liking,time_anova$nom)
 
 # no judge effect 
+
+mod <- glm(liking~label+nom,data=time_anova,family = "binomial")
+
+
+
+
 
