@@ -250,8 +250,8 @@ double_loop = function(width_size= 640,
               
               
               data_clust <- data_clust %>% 
-                group_by(clust) %>% 
-                summarise(mean_t = mean(t)) %>% 
+                dplyr::group_by(clust) %>% 
+                dplyr::summarise(mean_t = mean(t)) %>% 
                 mutate(rank = rank(mean_t)) %>% 
                 full_join(data_clust, by="clust") %>% 
                 arrange(rank)  %>% 
@@ -319,11 +319,11 @@ double_loop = function(width_size= 640,
               data_translated$new_y = data_translated$new_y - y_trans
               
               cluster_translated = data_clust
-              cluster_translated$x = cluster_translated$x - x_trans
-              cluster_translated$y = cluster_translated$y - y_trans
+              cluster_translated$new_x = cluster_translated$x - x_trans
+              cluster_translated$new_y = cluster_translated$y - y_trans
               
               plot = ggplot()+
-                geom_point(data = cluster_translated, aes(x=x,y=y,colour = clust))+
+                geom_point(data = cluster_translated, aes(x=new_x,y=new_y,colour = clust))+
                 
                 coord_fixed(ratio = 1, xlim = c(-8, 24), ylim = c(-4.5, 13.5)) +
                 geom_point(data = square_pos[square_pos$stimu == name_stimu[1,i],], 
@@ -368,7 +368,7 @@ double_loop = function(width_size= 640,
               
               # joindre les classe avec les vrai points 
               df_join <- full_join(cluster_translated, square_pos_temp, by=c("clust"="num_bis")) %>% 
-                rename(x_eye = x,
+                dplyr::rename(x_eye = x,
                        y_eye = y, 
                        group = clust, 
                        stimu = stimu) %>% 
@@ -427,34 +427,34 @@ double_loop = function(width_size= 640,
                                                     nb_clust= 5) 
               stimuli_correct$stimu <- name_stimu[1,i]
               df_corrected = rbind(df_corrected, stimuli_correct)
-              
-              ggplot()+
-                geom_point(data = df_join, aes(x = x_eye, y = y_eye, color = group))+
-                coord_fixed(ratio = 1, xlim = c(-8,24 ), ylim = c(-4.5,13.5)) +
-                geom_point(data = df_join, aes(x=xvec,y=yvec, color = group, fill = group), 
-                           shape = 15)+
-                geom_segment(aes(x = 0, y = 9, xend = 16, yend = 9, colour = "segment"))+
-                geom_segment(aes(x = 0, y = 0, xend = 0, yend = 9, colour = "segment"))+
-                geom_segment(aes(x = 0, y = 0, xend = 16, yend = 0, colour = "segment"))+
-                geom_segment(aes(x = 16, y = 0, xend = 16, yend = 9, colour = "segment"))+
-                labs(title = paste("consumer : ", k, " stimu : ", stimu[i], " name :", name_stimu[i]))
-                
-              
-              ggplot()+
-                geom_point(data = data_translated, aes(x = new_x, y = new_y, color = "red"))+
-                geom_point(data = df_corrected, aes(x=new_x,y=new_y, col = "blue")) +
-                  coord_fixed(ratio = 1, xlim = c(-8,24 ), ylim = c(-4.5,13.5)) +
-                geom_point(data = square_pos[square_pos$stimu == name_stimu[1,i],], 
-                           aes(x=xvec,y=yvec, color = name, fill = name), 
-                           shape = 15)+
-                geom_point(data = square_pos[square_pos$col == "noir",], 
-                           aes(x=xvec,y=yvec, color = name, fill = name), 
-                           shape = 15)+
-                geom_segment(aes(x = 0, y = 9, xend = 16, yend = 9, colour = "segment"))+
-                geom_segment(aes(x = 0, y = 0, xend = 0, yend = 9, colour = "segment"))+
-                geom_segment(aes(x = 0, y = 0, xend = 16, yend = 0, colour = "segment"))+
-                geom_segment(aes(x = 16, y = 0, xend = 16, yend = 9, colour = "segment"))+
-                labs(title = paste("consumer : ", k, " stimu : ", stimu[i], " name :", name_stimu[i]))
+              # 
+              # ggplot()+
+              #   geom_point(data = df_join, aes(x = x_eye, y = y_eye, color = group))+
+              #   coord_fixed(ratio = 1, xlim = c(-8,24 ), ylim = c(-4.5,13.5)) +
+              #   geom_point(data = df_join, aes(x=xvec,y=yvec, color = group, fill = group), 
+              #              shape = 15)+
+              #   geom_segment(aes(x = 0, y = 9, xend = 16, yend = 9, colour = "segment"))+
+              #   geom_segment(aes(x = 0, y = 0, xend = 0, yend = 9, colour = "segment"))+
+              #   geom_segment(aes(x = 0, y = 0, xend = 16, yend = 0, colour = "segment"))+
+              #   geom_segment(aes(x = 16, y = 0, xend = 16, yend = 9, colour = "segment"))+
+              #   labs(title = paste("consumer : ", k, " stimu : ", stimu[i], " name :", name_stimu[i]))
+              #   
+              # 
+              # ggplot()+
+              #   geom_point(data = data_translated, aes(x = new_x, y = new_y, color = "red"))+
+              #   geom_point(data = df_corrected, aes(x=new_x,y=new_y, col = "blue")) +
+              #     coord_fixed(ratio = 1, xlim = c(-8,24 ), ylim = c(-4.5,13.5)) +
+              #   geom_point(data = square_pos[square_pos$stimu == name_stimu[1,i],], 
+              #              aes(x=xvec,y=yvec, color = name, fill = name), 
+              #              shape = 15)+
+              #   geom_point(data = square_pos[square_pos$col == "noir",], 
+              #              aes(x=xvec,y=yvec, color = name, fill = name), 
+              #              shape = 15)+
+              #   geom_segment(aes(x = 0, y = 9, xend = 16, yend = 9, colour = "segment"))+
+              #   geom_segment(aes(x = 0, y = 0, xend = 0, yend = 9, colour = "segment"))+
+              #   geom_segment(aes(x = 0, y = 0, xend = 16, yend = 0, colour = "segment"))+
+              #   geom_segment(aes(x = 16, y = 0, xend = 16, yend = 9, colour = "segment"))+
+              #   labs(title = paste("consumer : ", k, " stimu : ", stimu[i], " name :", name_stimu[i]))
                 
               
               heatmap_generator_bigger(data = df_corrected,
@@ -498,8 +498,8 @@ double_loop = function(width_size= 640,
               data_classif <- gaze_classif(df_calibration, clust_number = 5) 
               
               data_classif <- data_classif %>% 
-                group_by(clust) %>% 
-                summarise(mean_t = mean(t)) %>% 
+                dplyr::group_by(clust) %>% 
+                dplyr::summarise(mean_t = mean(t)) %>% 
                 mutate(rank = rank(mean_t)) %>% 
                 full_join(data_classif, by="clust") %>% 
                 arrange(rank)  %>% 
@@ -613,5 +613,5 @@ double_loop = function(width_size= 640,
 
 
 double_loop(method = "heatmap_corrected")
-
+ 
 
