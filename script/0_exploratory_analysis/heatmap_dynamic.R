@@ -9,7 +9,7 @@ library(plyr)
 source("script/requirements.R")
 source("script/1_data_processing/helpers_data_process.R")
 
-data = read.table("data/gazedata/18-damien/Result2/ScreenRecorderPath.dat", skip = 1, header = FALSE)
+data = read.table("data/gazedata/12-annevictoire/Result5/ScreenRecorderPath.dat", skip = 1, header = FALSE)
 
 data = data[,1:3]
 
@@ -19,16 +19,17 @@ data = remove_first_time(data,15)
 data = remove_last_time(data,27.51)
 
 
-path_img ="experience/cockpit_utile/112.png"
+path_img ="experience/cockpit_utile/823.png"
 img <- readPNG(path_img)
 img <- rasterGrob(img, interpolate=TRUE)
 
-data.pca = PCA(data, col.w = c(1,1,1))
+data.pca = PCA(data_translated, col.w = c(1,1,1))
 
 data.hcpc = HCPC(res = data.pca, nb.clust = -1)
 
 
-
+k
+i
 find_hull <- function(df) df[chull(df$x, df$y), ]
 poly <- ddply(data.hcpc$data.clust, "clust", find_hull)
 
@@ -36,12 +37,11 @@ plot <- ggplot(data = data.hcpc$data.clust, aes(x = x,  y = y, colour=clust, fil
   annotation_custom(img, xmin=0, xmax=16, ymin=0, ymax=9) +
   geom_point() + 
   geom_polygon(data = poly, alpha = 0.5) +
-  labs(x = "x", y = "y")+
+  labs(x = "x", y = "y", title = "Zone du regard en fonction du temps")
   
-  coord_fixed(ratio = 1, xlim = c(-10, 18), ylim = c(-3, 12)) 
 plot
 
-cluster = data.hcpc$data.clust
+  cluster = data.hcpc$data.clust
 
 
 ggplot()+

@@ -69,8 +69,8 @@ gaze_correct_bary <- function(data){
   
   # barycenter calcul
   
-  bary_coord <- data %>% group_by(group) %>% 
-    summarise(mean_x_eye = mean(x_eye), 
+  bary_coord <- data %>% dplyr::group_by(group) %>% 
+    dplyr::summarise(mean_x_eye = mean(x_eye), 
               mean_y_eye = mean(y_eye))
   
   trans_mat <- full_join(data,bary_coord,by="group") %>% 
@@ -177,8 +177,8 @@ gaze_stimuli_combi <- function(data_stimuli,
   stimuli_correct <- data.frame(x = data_stimuli$x,
                                 y = data_stimuli$y,
                                 t = data_stimuli$t)
-  for (k in 1:nb_clust)
-  {
+
+  for (k in 1:nb_clust){
     stimuli_correct[,1] <- stimuli_correct[,1] + (data_real[k]-data_bary[k])*data_weight[k]
     stimuli_correct[,2] <- stimuli_correct[,2] + (data_real[nb_clust+k]-data_bary[nb_clust+k])*data_weight[k]
   }
