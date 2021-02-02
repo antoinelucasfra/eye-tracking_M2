@@ -179,7 +179,7 @@ gaze_stimuli_combi <- function(data_stimuli,
                                 t = data_stimuli$t)
   for (k in 1:nb_clust)
   {
-    stimuli_correct[,1] <- stimuli_correct[,1] +  
+    stimuli_correct[,1] <- stimuli_correct[,1] + (data_real[k]-data_bary[k])*data_weight[k]
     stimuli_correct[,2] <- stimuli_correct[,2] + (data_real[nb_clust+k]-data_bary[nb_clust+k])*data_weight[k]
   }
   colnames(stimuli_correct) <- c("new_x","new_y", "t")
