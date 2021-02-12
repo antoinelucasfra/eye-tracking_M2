@@ -106,7 +106,7 @@ fake_generator = function(nb_record = 1, img = "663.png",
     }
    
     # save la heatmaps en format png
-    png(file=paste0("img/fake_img_medium/fake",k,".png"), width=width_size, height=height_size)
+    png(file=paste0("img/fake_img_big/fake",k,".png"), width=width_size, height=height_size)
     plot(heatmap)
     dev.off()
   }

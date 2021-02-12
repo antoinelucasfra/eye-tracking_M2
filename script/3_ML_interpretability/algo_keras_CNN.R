@@ -7,12 +7,12 @@ width_size = 320
 channel = 3
 
 ## Generate fake heatMaps if needed 
-list_files = list.files("img/fake_img/", pattern = "*.png", full.names = TRUE)
+list_files = list.files("img/fake_img_big/", pattern = "*.png", full.names = TRUE)
 if (length(list_files)==0) {
   fake_generator(100,
                  height_size = height_size, 
                  width_size = width_size, 
-                 sup_img = FALSE)
+                 sup_img = TRUE)
 }
 
 # Load heatMaps data
