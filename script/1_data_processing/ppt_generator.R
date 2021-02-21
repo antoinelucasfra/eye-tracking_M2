@@ -1,13 +1,13 @@
-# script to produce a powerpoint to show at the user at the end of all stimuli
+### NON FINISHED ### 
+# non-used during experimentation phase, only primer idea
+
+# script to produce a powerpoint to show at the user at the end stimuli evaluation
+
 #' eye-tracking evaluations 
 #' build a script that take as input the path : stimuli + heatmap superposed 
 
-library(png)
-library(officer)
-library(magrittr)
-library(imager)
-
-picture_list <- list.files(paste0("data/heatmap_eyetrack/",consumers_name), full.names = T)
+picture_list <- list.files(paste0("data/heatmap_eyetrack/",consumers_name), 
+                           full.names = T)
 
 #' function that is returning a powerpoint with picture and heatmap from the path
 #'

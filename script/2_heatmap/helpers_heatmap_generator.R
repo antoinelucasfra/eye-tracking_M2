@@ -1,5 +1,5 @@
-#' Function to generate heatmaps from the stimuli dataframe 
-#'
+#' Functions useful to generate heatmaps from the stimuli dataframe 
+
 #' @param data dataframe to generate heatmaps
 #' @param path_img path of the stimuli picture to have in a vector
 #' @param width_size number of pixels on width heatmap
@@ -7,7 +7,7 @@
 #' @param add_img TRUE/FALSE argument to decide whether or not to add the background stimuli on the heatmap
 #' @param transparency_img coefficient to modulate the transparency of the heatmap 
 
-heatmap_generator = function(data,
+heatmap_generator <- function(data,
                              path_img = "experience/cockpit_utile/112.png",
                              file_name,
                              width_size = 160, 
@@ -22,7 +22,7 @@ heatmap_generator = function(data,
   
   if (add_img == TRUE & only_img == FALSE){
     
-    heatmap = ggplot(data, aes(x = new_x, y = new_y) ) +
+    heatmap <- ggplot(data, aes(x = new_x, y = new_y) ) +
       
       theme_void() +
       annotation_custom(img, xmin=0, xmax=16, ymin=0, ymax=9) +
@@ -51,7 +51,7 @@ heatmap_generator = function(data,
   
   else if (only_img == TRUE & add_img == TRUE) {
     
-    heatmap = ggplot(data, aes(x = x, y = y) ) +
+    heatmap <- ggplot(data, aes(x = x, y = y) ) +
       
       theme_void() +
       annotation_custom(img, xmin=0, xmax=16, ymin=0, ymax=9) +
@@ -71,7 +71,7 @@ heatmap_generator = function(data,
   
   else {
     
-    heatmap = ggplot(data, aes(x = new_x, y = new_y) ) +
+    heatmap <- ggplot(data, aes(x = new_x, y = new_y) ) +
       
       theme_void() +
       
@@ -120,7 +120,7 @@ heatmap_generator = function(data,
 #' @export
 #'
 #' @examples
-heatmap_generator_bigger = function(data,
+heatmap_generator_bigger <- function(data,
                              path_img = "experience/cockpit_utile/112.png",
                              file_name,
                              width_size = 160, 
@@ -132,7 +132,7 @@ heatmap_generator_bigger = function(data,
   img <- readPNG(path_img)
   img <- rasterGrob(img, interpolate=TRUE)
     
-    heatmap = ggplot(data, aes(x = new_x, y = new_y) ) +
+    heatmap <- ggplot(data, aes(x = new_x, y = new_y) ) +
       
       #theme_void() +
       annotation_custom(img, xmin=0, xmax=16, ymin=0, ymax=9) +
@@ -157,9 +157,4 @@ heatmap_generator_bigger = function(data,
   plot(heatmap)
   dev.off()
 }
-
-
-
-
-
 

@@ -10,9 +10,9 @@
 #' and time units changed from milliseconds to seconds
 gaze_preprocess <- function(data,screen_size){
   gaze_df <- data.frame(
-    x = data[,1]*screen_size[2],
-    y = (1 -data[,2])*screen_size[1],
-    t = (data[,3] - data[,3][1])/1000
+    x <- data[,1]*screen_size[2],
+    y <- 1 -data[,2])*screen_size[1],
+    t <- data[,3] - data[,3][1])/1000
   )
   return(gaze_df)
 }

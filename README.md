@@ -1,14 +1,17 @@
-The main goal of this project was to democratize the eye-tracking technology. It was made by three master’s degrees students in exploratory statistic and sensometry (science of analyzing consumer response to stimulation) during a two-month period.
-The tools needed for this work are a webcam equipped computer, R and GazeRecorder software (GazeRecorder is open source and render the recording as a .txt file where V1, V2, V3 are x, y, t).
+# Home-made Eye tracking, machine learning in service of cognitive sciences 
 
-This experiment was made using 16 car’s cockpits as visual stimuli in order to determine consumers products appreciation. The expression of eye scanning is called heatmap, the usual representation relies on duration.  The non-conclusiveness of the duration data drew us to further data exploration towards stronger visualization in terms of covariables illustration. We aimed to visually encode chronology or consumer feedback (or else) into those heatmap in order to keep input as images. As the data were analyzed throughout machine learning of images (both because it’s the literature type of eye-tracking presentation and machine learning of images are well constructed to deliver determinant area of algorithm decisioning).
+The main goal of this project was to democratize the eye-tracking technology. It was made by three master’s degrees students in exploratory statistic and sensometry (science of analyzing consumer response to stimulation) during a two-month period.
+The tools needed for this work are a webcam equipped computer, R and GazeRecorder software (GazeRecorder is free and ready-to-use and render the eye-track recordings as a *.txt* file where V1, V2, V3 are x, y, t).
+
+This experiment was made using 16 car’s cockpits as visual stimuli in order to determine consumers products appreciation. The expression of eye scanning is called heatmap, the usual representation relies on duration. The non-conclusiveness of the duration data drew us to further data exploration towards stronger visualization in terms of co-variables illustration. We aimed to visually encode chronology or consumer feedback (or else) into those heatmaps in order to keep input as images. As the data were analyzed throughout machine learning of images (both because it’s the literature type of eye-tracking presentation and machine learning of images are well constructed to deliver determinant area of algorithm decisioning).
+
 Stimuli visualization was always preceded by a calibration phase.
 
-In this read me we are going to go over the repository in order to detail folders’ functionality.
+In this *README.md* we are going to go over the repository in order to detail folders’ functionality.
 
 
 # Overall
--	The folder “experience” contains every brick we used in the process of data collection and visualization. However, it only contains the raw processing elements. The results of data collection and manipulations are inside the “data” folder. The manipulations algorithm of those bricks that gave the are inside the “script” folder.
+The folder “experience” contains every brick we used in the process of data collection and visualization. However, it only contains the raw processing elements. The results of data collection and manipulations are inside the “data” folder. The manipulations algorithm of those bricks that gave the are inside the “script” folder.
 
 ## experience
 2 folders, 4 csv, 1 R Workspace
@@ -23,8 +26,6 @@ In this read me we are going to go over the repository in order to detail folder
 ### folders :
 -	cockpit_utile : each cockpits images named as it’s coding number.
 -	AOI : a simplistic illustration of the cockpit where each Area Of Interest (AOI) are color illustrated in order to facilitate zoning for the algorithm. (e.g : each steering wheel are blue).
-
-
 
 ## script 
 4 folders, 1 R file
@@ -54,11 +55,9 @@ In this read me we are going to go over the repository in order to detail folder
 -	gazedata : the raw data collected through GazeRecorder
 -	input_ML : The image section where the algorithm generates the heatmap in order to used them into machine learning.
 
-
-
-
 #
 #
+
 # Authors
-Project conduct by Antoine LUCAS @antoinelucasfra, Flavie THEVENARD @FlavThvnrd and Julien PETOT @jpetot
+Project conduct by Antoine LUCAS @antoinelucasfra, Flavie THEVENARD @FlavThvnrd and Julien PETOT @jpetot in the context of a second year master degree in Data Science.
 

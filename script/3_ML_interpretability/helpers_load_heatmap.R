@@ -12,7 +12,7 @@ loader_img <- function (path_abs = "data/inputs_ML/",
                         height_size=360, 
                         width_size=640){
   
-  col = colnames(consumers_data)
+  col <- colnames(consumers_data)
   
   # create the id (like .png start name) 
   consumers_data$nom <- paste0(consumers_data$ordre,"-",consumers_data$nom)
@@ -33,7 +33,7 @@ loader_img <- function (path_abs = "data/inputs_ML/",
                                           names_sep = "_", 
                                           values_ptypes = list(.value=character())) 
 
-  img_path = list.files(paste0(path_abs,method_name),full.names = TRUE)
+  img_path <- list.files(paste0(path_abs,method_name),full.names = TRUE)
   img_path_short <- gsub(".png","",
                          list.files(paste0(path_abs,method_name),full.names = FALSE))
   
@@ -53,7 +53,7 @@ loader_img <- function (path_abs = "data/inputs_ML/",
   # need to ensure the fact that the liking vector is in the same order as the heat_img array
   
   # create the consu_id to match with path_img labels 
-  time_user$consu_id = paste0(time_user$nom, "_", time_user$label)
+  time_user$consu_id <- paste0(time_user$nom, "_", time_user$label)
   
   # keep only relevant columns 
   consumers_data_ordered <- time_user %>% 
@@ -68,7 +68,7 @@ loader_img <- function (path_abs = "data/inputs_ML/",
   heat_img$y <- as.factor(consumers_data_final$liking)
   heat_img$y <- as.integer(recode(heat_img$y , "aime" = "1", "aime_pas" = "2"))
   
-  heat_img$img_path_short = img_path_short
+  heat_img$img_path_short <- img_path_short
   
   # delete these line because info is in img already in the same order as the images 
   # heat_img$name = name

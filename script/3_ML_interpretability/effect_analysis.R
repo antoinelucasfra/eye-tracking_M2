@@ -29,13 +29,27 @@ time_anova <- time_user %>%
 # barplot for liking data
 
 time_anova %>% group_by(label,liking) %>% 
-  count()
-
-time_anova %>% group_by(label,liking) %>% 
   count() %>% 
   ggplot() +
   geom_bar(aes(x=label,y=n,fill=liking), stat = "identity") +
-  geom_vline()
+  geom_hline(yintercept = 17, linetype="dashed") +
+  scale_fill_manual(values = c("green","red")) +
+  annotate("text",x=5,y=17.5,label="Appréciation_moyenne",size=4,parse=TRUE) +
+  xlab("stimuli") +
+  ylab("Nombre d'appréciations par stimuli") +
+  theme_classic()
+  
+  
+mean_c <- time_anova %>% group_by(label,liking) %>% count() %>% ungroup() %>% 
+  summarise(mean_c = mean(n))
+
+time_anova %>% group_by(nom,liking) %>% 
+  count() %>% 
+  ggplot() +
+  geom_bar(aes(x=nom,y=n,fill=liking), stat = "identity") +
+  geom_hline(yintercept = 17) +
+  scale_fill_manual(values = c("green","red")) 
+  # annotate("text",x=5,y=17.5,label="Average_liking",size=4,parse=TRUE)
 
 
 # test for the stimuli effect
@@ -49,11 +63,15 @@ chisq.test(time_anova$liking,time_anova$label)
 table(time_anova$nom,time_anova$liking)
 chisq.test(time_anova$liking,time_anova$nom)
 
+
 # no judge effect 
 
-mod <- glm(liking~label+nom,data=time_anova,family = "binomial")
+time_anova_fct <- time_anova %>% mutate_if(is.character,as.factor)
+
+mod <- glm(liking~nom+label,data=time_anova_fct,family = "binomial")
+
+summary(mod)
 
 
-
-
-
+mod_null <- glm(liking~1,data=time_anova_fct,family = "binomial")
+summary(mod_null)
