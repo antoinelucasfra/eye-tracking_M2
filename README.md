@@ -12,6 +12,7 @@ In this *README.md* we are going to go over the repository in order to detail fo
 
 # Overall
 The folder “experience” contains every brick we used in the process of data collection and visualization. However, it only contains the raw processing elements. The results of data collection and manipulations are inside the “data” folder. The manipulations algorithm of those bricks that gave the are inside the “script” folder.
+You'll also found the support we used for our oral presentation (in french) it's named "presentation_orale_trackers.pdf"
 
 ## Experience
 2 folders, 3 csv, 1 R Workspace
