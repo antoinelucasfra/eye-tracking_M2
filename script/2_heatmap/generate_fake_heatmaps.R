@@ -43,12 +43,12 @@ one_record <- function(repetition = 10, nb_clust = 7, like = 1, x_pos = 0.3){
   return(df)
 }
 
-
+# create fake heatmap
 fake_generator <- function(nb_record = 1, img = "663.png", 
                           width_size = 50, height_size = 50, 
                           sup_img = TRUE, transp = 0.8){
 
-  # importer image, par default le liknedIn de flavie : 
+  # get background image :
   img_path <- paste0("experience/cockpit_utile/",img)
   img <- readPNG(img_path)
   img <- rasterGrob(img, interpolate=TRUE)
@@ -107,7 +107,7 @@ fake_generator <- function(nb_record = 1, img = "663.png",
     }
    
     # save heatmaps in .png format 
-    png(file = paste0("img/fake_img_medium/fake",k,".png"), 
+    png(file = paste0("data/imputs_ML/fake_img_med/fake",k,".png"), 
         width = width_size, 
         height = height_size)
     plot(heatmap)
