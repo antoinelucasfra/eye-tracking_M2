@@ -27,10 +27,10 @@ The folder “experience” contains every brick we used in the process of data 
 -	AOI : a simplistic illustration of the cockpit where each Area Of Interest (AOI) are color illustrated in order to facilitate zoning for the algorithm. (e.g : each steering wheel are blue).
 
 ## script 
-4 folders, 1 R file
+4 folders, 1 Requirements.R
 
-### R file
-- requirements : all the library needed to run the project
+### Requirements.R
+- All the needed libraries to run the project
 
 ### folders
 -	0_exploratory_analysis : This folder contains parts of our researching work that were not implemented in the final production script but could have been develop into suitable solution. Some of those script may not be running perfectly but they are not needed in the project functioning.
