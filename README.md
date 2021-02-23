@@ -55,6 +55,8 @@ The folder “experience” contains every brick we used in the process of data 
 -	input_ML : The image section where the algorithm generates the heatmap in order to used them into machine learning.
 
 #
+### Scheme
+![](experience/schema_projet.png)
 #
 
 # Authors
