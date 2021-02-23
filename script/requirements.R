@@ -1,10 +1,6 @@
 # script to install and load necessary packages/items to run the project 
 
-# install the necessary packages
-
-
-
-# load library and script
+# load library and script (do install.packages(package_name) if the package is not already installed)
 
 # divers
 library(tidyr)
@@ -27,30 +23,17 @@ library(lime)
 library(magick)
 library(reticulate)
 library(abind)
+library(gtools)
 
-# helpers
+# first install of keras and tensorflow in your Rstudio ?
+# execute the following lines to complete installation
+install_tensorflow()
+install_keras()
+
+# load script helpers for the project 
+
 source("script/1_data_processing/helpers_data_process.R")
 source("script/2_heatmap/helpers_heatmap_generator.R")
 source("script/1_data_processing/load_data.R")
-
-
-# double for loop 
-library(gtools)
-library(stringr)
-
-
-# if (!requireNamespace("BiocManager", quietly = TRUE)){
-#   install.packages("BiocManager")
-#   BiocManager::install(version = "3.12")
-# }
-# 
-# BiocManager::install("EBImage")
-
-library(EBImage)
-
-
-# ## need to install keras and tensorflow ?
-# install_tensorflow()
-# install_keras()
 
 

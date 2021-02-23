@@ -1,14 +1,14 @@
+# script to make interpretability on simulated (fake) heatmaps
 
 source("script/2_heatmap/generate_fake_heatmaps.R")
 
-
-height_size = 180
-width_size = 320
-channel = 3
+height_size <- 180
+width_size <- 320
+channel <- 3
 
 ## Generate fake heatMaps if needed 
-list_files = list.files("img/fake_img/", pattern = "*.png", full.names = TRUE)
-if (length(list_files)==0) {
+list_files <- list.files("img/fake_img/", pattern = "*.png", full.names = TRUE)
+if (length(list_files) == 0) {
   fake_generator(100,
                  height_size = height_size, 
                  width_size = width_size, 
@@ -16,15 +16,15 @@ if (length(list_files)==0) {
 }
 
 # Load heatMaps data
-list_files = list.files("img/fake_img/", pattern = "*.png", full.names = TRUE)
+list_files <- list.files("img/fake_img/", pattern = "*.png", full.names = TRUE)
 
 # extract number in picture names
 numextract <- function(string){str_extract(string, "[-+]?[0-9]*\\.?[0-9]+")
 }
-list_number = as.numeric(numextract(list_files))
+list_number <- as.numeric(numextract(list_files))
 
 # Conversion in png format
-image = lapply(X = list_files, FUN = readPNG)
+image <- lapply(X = list_files, FUN = readPNG)
 
 # on les convert en RG (utile si on veut visualiser)
 # image_rg = lapply(image, rasterGrob)
@@ -39,14 +39,14 @@ for (k in 1:length(image)) {
 }
 
 # y is a serie of (0,1) according the name of the picture :pair then 0, else 1 
-heat_img$y = ifelse(list_number %% 2 == 0, 1,0)
+heat_img$y <- ifelse(list_number %% 2 == 0, 1,0)
 
 ##################################
 ######### dataset train et test ##
 ##################################
 
-n_train = round(length(list_files) * 0.7)
-ind_train = sample(1:length(list_files),n_train )
+n_train <- round(length(list_files) * 0.7)
+ind_train <- sample(1:length(list_files),n_train )
 
 #train
 x_train <- heat_img$x[ind_train,,,]
@@ -91,9 +91,9 @@ history <- model %>%
 plot(history)
 
 
-
 #### Lime Interpretability #####
 
+# choose image to interpret
 
 img_path <- "img/fake_img/fake43.png"
 img_path2 <- "img/fake_img/fake100.png"
@@ -110,18 +110,13 @@ image_prep2 <- function(x) {
 
 plot_superpixels(img_path, n_superpixels = 10, weight = 10)
 
-# find optimum for n_superpixels and weights associated in plot_superpixels function 
-
-# experimental planification 
-# 2 quantitative variables 
-
-
-
 
 explainer2 <- lime(c(img_path, img_path2), model = model, preprocess =  image_prep2)
 explanation2 <- explain(c(img_path, img_path2), explainer2,
                         n_labels = 2, n_features = 10, weight = 10,n_superpixels = 10,
                         background = "white")
+
+# get the LIME interpretation 
 
 exp <- as.data.frame(explanation2)
 desagreable <- exp[exp$case == "fake43.png",]

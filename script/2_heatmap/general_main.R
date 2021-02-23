@@ -1,4 +1,4 @@
-# script qui prend en entree tout les consumers_name et qui genere toutes les heatmaps d'un coup
+# script with consumers_name as input and generating heatmaps 
 
 # get time_user_exp csv file
 
