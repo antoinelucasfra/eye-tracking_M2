@@ -61,6 +61,7 @@ In the main folder you'll also found the support we used for our oral presentati
 ### Scheme
 ![](experience/schema_projet.png)
 #
+#
 
 # Authors
 Project conduct by Antoine LUCAS @antoinelucasfra, Flavie THEVENARD @FlavThvnrd and Julien PETOT @jpetot in the context of a second year master degree in Data Science.
