@@ -11,12 +11,11 @@ In this read me we are going to go over the repository in order to detail folder
 -	The folder “experience” contains every brick we used in the process of data collection and visualization. However, it only contains the raw processing elements. The results of data collection and manipulations are inside the “data” folder. The manipulations algorithm of those bricks that gave the are inside the “script” folder.
 
 ## experience
-2 folders, 4 csv, 1 R Workspace
+2 folders, 3 csv, 1 R Workspace
 
 ### R Workspace :
 -	Plan_exp : resumed each consumers stimuli presentation order. For each of the stimuli there is a presentation duration (the consumer could either watch it for 60 seconds or cut the visioning when he felt like it).
 ### csv :
--	plan_exp : inutile en fait ?
 -	25_square_position : each calibration path is color associated, this csv gives all the square position into a 16:9 space.
 -	correspondance_stimu_couleur : a csv file of each calibration path associated with a stimulus.
 -	calibration_correlation : it is the estimation of how fitted the calibration phase was with physical reality. There are 5 classes : parfait, yes, maybe, complex, no.
