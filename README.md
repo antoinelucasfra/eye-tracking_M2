@@ -1,4 +1,4 @@
-# Home-made Eye tracking, machine learning in service of cognitive sciences 
+# Home-made Eye tracking, cognitive sciences through machine learning 
 
 The main goal of this project was to democratize the eye-tracking technology. It was made by three master’s degrees students in exploratory statistic and sensometry (science of analyzing consumer response to stimulation) during a two-month period.
 The tools needed for this work are a webcam equipped computer, R and GazeRecorder software (GazeRecorder is free and ready-to-use and render the eye-track recordings as a *.txt* file where V1, V2, V3 are x, y, t).
