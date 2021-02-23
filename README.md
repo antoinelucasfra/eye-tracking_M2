@@ -1,4 +1,4 @@
-# Home-made Eye tracking, machine learning in service of cognitive sciences 
+# Home-made Eye tracking, cognitive sciences through machine learning 
 
 The main goal of this project was to democratize the eye-tracking technology. It was made by three master’s degrees students in exploratory statistic and sensometry (science of analyzing consumer response to stimulation) during a two-month period.
 The tools needed for this work are a webcam equipped computer, R and GazeRecorder software (GazeRecorder is free and ready-to-use and render the eye-track recordings as a *.txt* file where V1, V2, V3 are x, y, t).
@@ -13,7 +13,7 @@ In this *README.md* we are going to go over the repository in order to detail fo
 # Overall
 The folder “experience” contains every brick we used in the process of data collection and visualization. However, it only contains the raw processing elements. The results of data collection and manipulations are inside the “data” folder. The manipulations algorithm of those bricks that gave the are inside the “script” folder.
 
-## experience
+## Experience
 2 folders, 3 csv, 1 R Workspace
 
 ### R Workspace :
@@ -27,10 +27,10 @@ The folder “experience” contains every brick we used in the process of data 
 -	AOI : a simplistic illustration of the cockpit where each Area Of Interest (AOI) are color illustrated in order to facilitate zoning for the algorithm. (e.g : each steering wheel are blue).
 
 ## script 
-4 folders, 1 R file
+4 folders, 1 Requirements.R
 
-### R file
-- requirements : all the library needed to run the project
+### Requirements.R
+- All the needed libraries to run the project
 
 ### folders
 -	0_exploratory_analysis : This folder contains parts of our researching work that were not implemented in the final production script but could have been develop into suitable solution. Some of those script may not be running perfectly but they are not needed in the project functioning.
