@@ -9,10 +9,8 @@ Structure
 - `3_ML_interpretability/` — LIME + CNN experiments helpers
 - `requirements.R` — helper to load packages (not a reproducible installer)
 
-Refactor notes
-- Reusable helper functions were moved to `R/helpers_data_process.R` and cleaned.
-- `script/1_data_processing/main_data_process.R` now exposes `process_consumer()` which returns the raw and corrected data frames.
-- `script/run_data_processing.R` is a small CLI wrapper that saves results to `outputs/processed_<consumer>.rds`.
+Overview
+This directory contains the scripts used to preprocess gaze recordings, generate heatmaps and run ML interpretability experiments. Use these scripts when you want to recreate the data processing / image generation / model interpretability steps described in the project.
 
 Running
 1. Install dependencies listed in `script/requirements.R` (preferably using `renv` or the packages listed there).
@@ -37,9 +35,6 @@ Rscript script/run_ml_interpretability.R fake
 Rscript script/run_ml_interpretability.R real
 ```
 
-Testing
-- There are no unit tests in this repository by project decision.
-
 Notes
-- The scripts still expect raw gaze files under `data/gazedata/<consumer>/` with `ScreenRecorderPath.dat` files.
-- For reproducibility, add a `renv.lock` or list package versions in the top-level README.
+- The scripts expect raw gaze files under `data/gazedata/<consumer>/` with `ScreenRecorderPath.dat` files and supporting CSV / RData files in `data/` and `experience/`.
+- Install packages listed in `script/requirements.R` (preferably use `renv` to pin versions).

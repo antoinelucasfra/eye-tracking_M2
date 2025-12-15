@@ -3,10 +3,10 @@ Scripts documentation
 
 This file summarises the important entry points and helpers in `script/`.
 
-Key helpers (moved to `R/`):
+Key helpers (in `R/`):
 
 - `R/helpers_data_process.R` — gaze pre-processing, time filters, PCA clustering and correction helpers.
-- `R/helpers_heatmap.R` — `heatmap_generator()` and `heatmap_generator_bigger()` plus a wrapper to run the legacy `double_loop`.
+- `R/helpers_heatmap.R` — `heatmap_generator()` and `heatmap_generator_bigger()` plus a wrapper exposing the `double_loop` behaviour.
 - `R/helpers_ml.R` — `loader_img()` to load heatmap images and build arrays suitable for Keras.
 
 CLI entry points (recommended):

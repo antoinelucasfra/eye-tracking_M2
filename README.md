@@ -41,29 +41,30 @@ In the main folder you'll also found the support we used for our oral presentati
 -	2_heatmap : Those scripts are made for the heatmap generations (both real from collected data and false with forced structures in order to test the machine learning algorithm).
 -	3_ML_interpretability : Those scripts are both the machine learning and the interpretability analysis. The machine learning was made through CNN from Keras for image recognition. Interpretability used LIME. Both are in the LIME package.
 
-### Refactor and usage
-The `script/` folder has been slightly refactored to make the processing functions reusable. Notable changes:
+### Usage
 
--- Helper functions are now in `R/helpers_data_process.R`.
-- `script/1_data_processing/main_data_process.R` exports `process_consumer()` (callable from R) and a CLI wrapper is available at `script/run_data_processing.R`.
+Key scripts and typical commands:
 
-To run the processing for one consumer from the command line:
+- Process a single consumer and save results:
 
 ```bash
 Rscript script/run_data_processing.R 1-lucien
 ```
 
-Other useful commands:
+- Generate heatmaps for all consumers (scripting pipeline):
 
 ```bash
-# generate heatmaps for all consumers
 Rscript script/run_heatmaps.R heatmap_corrected
-
-# run ML interpretability pipeline (fake heatmaps)
-Rscript script/run_ml_interpretability.R fake
 ```
 
-_Note: This repository does not include unit tests by project decision._
+- Run ML interpretability pipelines (fake or real heatmaps):
+
+```bash
+Rscript script/run_ml_interpretability.R fake
+Rscript script/run_ml_interpretability.R real
+```
+
+See `script/README.md` for more details about available scripts and their inputs.
 
 
 ## Data
