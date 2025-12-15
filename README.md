@@ -1,4 +1,4 @@
-# Home-made Eye tracking, cognitive sciences through machine learning 
+# Home-made Eye tracking, cognitive sciences through machine learning
 
 The main goal of this project was to democratize the eye-tracking technology. It was made by three master’s degrees students in exploratory statistic and sensometry (science of analyzing consumer response to stimulation) during a two-month period.
 The tools needed for this work are a webcam equipped computer, R and GazeRecorder software (GazeRecorder is free and ready-to-use and render the eye-track recordings as a *.txt* file where V1, V2, V3 are x, y, t).
@@ -29,7 +29,7 @@ In the main folder you'll also found the support we used for our oral presentati
 -	cockpit_utile : each cockpits images named as it’s coding number.
 -	AOI : a simplistic illustration of the cockpit where each Area Of Interest (AOI) are color illustrated in order to facilitate zoning for the algorithm. (e.g : each steering wheel are blue).
 
-## script 
+## script
 4 folders, 1 Requirements.R
 
 ### Requirements.R
@@ -41,6 +41,30 @@ In the main folder you'll also found the support we used for our oral presentati
 -	2_heatmap : Those scripts are made for the heatmap generations (both real from collected data and false with forced structures in order to test the machine learning algorithm).
 -	3_ML_interpretability : Those scripts are both the machine learning and the interpretability analysis. The machine learning was made through CNN from Keras for image recognition. Interpretability used LIME. Both are in the LIME package.
 
+### Refactor and usage
+The `script/` folder has been slightly refactored to make the processing functions reusable. Notable changes:
+
+-- Helper functions are now in `R/helpers_data_process.R`.
+- `script/1_data_processing/main_data_process.R` exports `process_consumer()` (callable from R) and a CLI wrapper is available at `script/run_data_processing.R`.
+
+To run the processing for one consumer from the command line:
+
+```bash
+Rscript script/run_data_processing.R 1-lucien
+```
+
+Other useful commands:
+
+```bash
+# generate heatmaps for all consumers
+Rscript script/run_heatmaps.R heatmap_corrected
+
+# run ML interpretability pipeline (fake heatmaps)
+Rscript script/run_ml_interpretability.R fake
+```
+
+_Note: This repository does not include unit tests by project decision._
+
 
 ## Data
 2 folders, 1 R Workspace, 2 csv
@@ -50,7 +74,7 @@ In the main folder you'll also found the support we used for our oral presentati
 -	time_user_exp: this csv file was the raw collection data as to duration of stimuli presentation and liking labeling from the consumer for each car named by it’s code.
 
 
-### R Workspace 
+### R Workspace
 -	df_all : it resumes all the needed data from experience planning, to liking to duration to calibration path.
 
 ### folders
@@ -65,4 +89,3 @@ In the main folder you'll also found the support we used for our oral presentati
 
 # Authors
 Project conduct by Antoine LUCAS @antoinelucasfra, Flavie THEVENARD @FlavThvnrd and Julien PETOT @jpetot in the context of a second year master degree in Data Science.
-
